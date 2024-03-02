@@ -1,21 +1,29 @@
 const pool = require('../../db');
 const queries = require('../queries/type_service.queries');
 
-const getServiceType = (req, res) =>{
-    pool.query(queries.getServiceType, (error, results)=>{
-        if (error) throw error;
-        res.status(200).json(results.rows);
-    });
+const getServiceType = async (req, res) =>{
+    try{
+        const { rows } = await pool.query(queries.getServiceType)
+        res.json(rows);
+    } catch (error) {
+        res.status(500).json({error: error.message});
+    }
+
 };
 
-const getServiceTypeById = (req, res) =>{
+const getServiceTypeById = async (req, res) => {
     const id = parseInt(req.params.id);
-    pool.query(queries.getServiceTypeById, [service_id], (error, results) =>{
-        if(error) throw error;
-        res.status(200).json(results.rows);
-    });
+    try {
+        const {rows} = await pool.query(queries.getServiceTypeById, [id]);
+        if (rows.length > 0) {
+            res.json(rows[0]);
+        } else {
+            res.status(404).json({message: 'Service type not found'});
+        }
+    } catch (error) {
+        res.status(500).json({error: error.message});
+    }
 }
-
 const addServiceType = (req, res) =>{
     const {name} = req.body;
     pool.query(queries.addServiceType, [name], (error, results)=>{

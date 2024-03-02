@@ -19,11 +19,7 @@ const getContractsById = (req,res) => {
 const addContract = (req, res) =>{
     const {connect_address, contract_number, personal_account, contract_client_id} = req.body;
     // проверить если адрес подключения такой же как и у другого человека
-    /*pool.query(queries.checkConnectionAddressExists, [connection_address], (error, results)=>{
-        if(results.rows.length){
-            res.send("адрес подключения уже есть в базе данных");
-        }
-    })*/
+
     pool.query(queries.addContract,[connect_address, contract_number, personal_account, contract_client_id], (error, results)=>{
         if (error) throw error;
         res.status(201).send("Договор успешно создан.");

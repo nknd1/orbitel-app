@@ -52,19 +52,71 @@ const updateClient = (req, res) => {
         });
 }
 
+const registerClient = async (req, res) => {
+    const { type_id, client_name, client_phone, client_addres_registration, password } = req.body;
 
-const signClient = (req, res) =>{
-    pool.query(queries.signCl,(error, results) =>{
-        if(error) throw error;
-        res.status(200).json(results.rows);
-    })
-}
+    try {
+        const hashedPassword = await bcrypt.hash(password, 10); // Хеширование пароля
+
+        await pool.query(
+            "INSERT INTO client (type_id, client_name, client_phone, client_addres_registration, password) VALUES ($1, $2, $3, $4, $5)",
+            [type_id, client_name, client_phone, client_addres_registration, hashedPassword]
+        );
+
+        res.status(201).json({ message: 'Клиент успешно зарегистрирован.' });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
+const secretKey = 'secret_key';
+const generateAccessToken = (client_id) => {
+    return jwt.sign({ client_id: client_id }, secretKey, { expiresIn: '1h' });
+};
+
+const loginClient = async (req, res) => {
+    const { client_name, client_phone, password } = req.body;
+
+    try {
+        const client = await pool.query('SELECT * FROM client WHERE client_name = $1', [client_name]);
+
+        if (client.rows.length === 0) {
+            return res.status(401).json({ message: 'Неверное имя клиента' });
+        }
+
+        const hashedPassword = client.rows[0].password;
+        const passwordMatch = await bcrypt.compare(password, hashedPassword);
+
+        if (!passwordMatch) {
+            return res.status(401).json({ message: 'Неверный пароль' });
+        }
+
+        if (client.rows[0].client_phone !== client_phone) {
+            return res.status(401).json({ message: 'Неверный номер телефона' });
+        }
+
+        const accessToken = generateAccessToken(client_name);
+
+        return res.status(200).json({ accessToken: accessToken, message: 'Успешная аутентификация' });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: 'Что-то пошло не так' });
+    }
+};
+
+
+
+
+
 module.exports = {
     getClients,
     getClientById,
     addClient,
     removeClient,
     updateClient,
-    signClient,
+    registerClient,
+    loginClient,
 };
 

@@ -5,7 +5,10 @@ const removeClient = "DELETE FROM client WHERE client_id = $1";
 const updateClient = "UPDATE client SET client_phone = $1 WHERE client_id = $2";
 
 
-const signClient = "SELECT * FROM client JOIN client_type ct on ct.id = client.type_id;"
+
+//const createClient = "INSERT INTO clients (client_name, client_phone, client_address_registration, password, contract_id)VALUES ($1, $2, $3, $4, $5) RETURNING *";
+
+const getClientByName = "SELECT * FROM clients WHERE client_name = $1"
 
 module.exports = {
     getClients,
@@ -13,5 +16,5 @@ module.exports = {
     addClient,
     removeClient,
     updateClient,
-    signClient,
+    getClientByName,
 };

@@ -1,12 +1,13 @@
 const {Router} = require('express');
 const controller = require('../controllers/tariffs.controller')
+const cors = require("cors");
 const router = Router();
 
-router.get("/", controller.getTariffs);
-router.get("/:tariff_id", controller.getTariffById);
-router.post("/", controller.addTariff);
-router.put("/:tariff_id", controller.updateTariff);
-router.delete("/:service_id", controller.removeTariff);
+router.get("/", cors(),controller.getTariffs);
+router.get("/:tariff_id", cors(),controller.getTariffById);
+router.post("/", cors(),controller.addTariff);
+router.put("/:tariff_id", cors(),controller.updateTariff);
+router.delete("/:service_id", cors(),controller.removeTariff);
 module.exports = router;
 
 

@@ -83,7 +83,7 @@ const loginClient = async (req, res) => {
         const client = await pool.query('SELECT * FROM client WHERE client_name = $1', [client_name]);
 
         if (client.rows.length === 0) {
-            return res.status(401).json({ message: 'Неверное имя клиента' });
+            return res.status(401).json({ message: 'Неверные учетные данные' });
         }
 
         const hashedPassword = client.rows[0].password;

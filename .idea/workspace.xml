@@ -6,14 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="2eae43f4-3753-4267-96f5-03e4c9f78723" name="Changes" comment="first commit">
       <changelist_data name="User" email="prodblood@gmail.com" />
+      <change afterPath="$PROJECT_DIR$/middleware/AuthenticateToken.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/server.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routes/client.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/client.routes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routes/contracts.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/contracts.routes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routes/tariffs.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/tariffs.routes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routes/type_service.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/type_service.routes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routes/users.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/users.routes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/client.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/client.controller.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,36 +66,36 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "Docker.postgres-compose/docker-compose.yaml: Compose Deployment.executor": "Run",
-    "Node.js.controller.js.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "cf.first.check.clang-format": "false",
-    "cidr.known.project.marker": "true",
-    "dart.analysis.tool.window.visible": "false",
-    "javascript.nodejs.core.library.configured.version": "18.17.1",
-    "javascript.nodejs.core.library.typings.version": "18.17.19",
-    "last_opened_file_path": "C:/Users/User/WebstormProjects/serverorbitel",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_interpreter_path": "node",
-    "nodejs_package_manager_path": "npm",
-    "npm.dev.executor": "Run",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "preferences.lookFeel",
-    "show.migrate.to.gradle.popup": "false",
-    "ts.external.directory.path": "C:\\Users\\User\\WebstormProjects\\serverorbitel\\client\\node_modules\\typescript\\lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;Docker.postgres-compose/docker-compose.yaml: Compose Deployment.executor&quot;: &quot;Run&quot;,
+    &quot;Node.js.controller.js.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;javascript.nodejs.core.library.configured.version&quot;: &quot;18.17.1&quot;,
+    &quot;javascript.nodejs.core.library.typings.version&quot;: &quot;18.17.19&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/User/WebstormProjects/serverorbitel&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_interpreter_path&quot;: &quot;node&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;npm.dev.executor&quot;: &quot;Run&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
+    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\User\\WebstormProjects\\serverorbitel\\client\\node_modules\\typescript\\lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\User\WebstormProjects\serverorbitel\cert" />
@@ -177,7 +174,11 @@
       <workItem from="1709298761746" duration="2936000" />
       <workItem from="1709305467837" duration="1856000" />
       <workItem from="1709387193990" duration="6079000" />
-      <workItem from="1709734847836" duration="2555000" />
+      <workItem from="1709734847836" duration="5056000" />
+      <workItem from="1709808699199" duration="4911000" />
+      <workItem from="1709909412631" duration="1704000" />
+      <workItem from="1709993638896" duration="631000" />
+      <workItem from="1710080917600" duration="38000" />
     </task>
     <servers />
   </component>

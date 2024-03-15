@@ -77,7 +77,7 @@ const generateAccessToken = (client_id) => {
 };
 
 const loginClient = async (req, res) => {
-    const { client_name, client_phone, password } = req.body;
+    const { client_name, client_phone } = req.body;
 
     try {
         const client = await pool.query('SELECT * FROM client WHERE client_name = $1', [client_name]);

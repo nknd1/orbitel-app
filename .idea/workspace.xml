@@ -6,11 +6,14 @@
   <component name="ChangeListManager">
     <list default="true" id="2eae43f4-3753-4267-96f5-03e4c9f78723" name="Changes" comment="first commit">
       <changelist_data name="User" email="prodblood@gmail.com" />
-      <change afterPath="$PROJECT_DIR$/middleware/AuthenticateToken.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/middleware/authMiddleware.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/middleware/AuthenticateToken.js" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/server.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controllers/client.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/client.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/contracts.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/contracts.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/queries/contracts.queries.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/queries/contracts.queries.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routes/contracts.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/contracts.routes.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -98,11 +101,11 @@
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\User\WebstormProjects\serverorbitel\src" />
       <recent name="C:\Users\User\WebstormProjects\serverorbitel\cert" />
       <recent name="C:\Users\User\WebstormProjects\serverorbitel\src\routes" />
       <recent name="C:\Users\User\WebstormProjects\serverorbitel\src\queries" />
       <recent name="C:\Users\User\WebstormProjects\serverorbitel\src\controller" />
-      <recent name="C:\Users\User\WebstormProjects\serverorbitel\src" />
     </key>
   </component>
   <component name="RunManager" selected="npm.dev">
@@ -178,7 +181,15 @@
       <workItem from="1709808699199" duration="4911000" />
       <workItem from="1709909412631" duration="1704000" />
       <workItem from="1709993638896" duration="631000" />
-      <workItem from="1710080917600" duration="38000" />
+      <workItem from="1710080917600" duration="173000" />
+      <workItem from="1710097047010" duration="34000" />
+      <workItem from="1710157256682" duration="2918000" />
+      <workItem from="1710335648979" duration="10541000" />
+      <workItem from="1710407690279" duration="10763000" />
+      <workItem from="1710428809269" duration="1868000" />
+      <workItem from="1710499461247" duration="125000" />
+      <workItem from="1710503007823" duration="1244000" />
+      <workItem from="1710508546377" duration="841000" />
     </task>
     <servers />
   </component>

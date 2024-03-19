@@ -15,7 +15,7 @@ const app = express();
 
 
 app.use(cors({
-    origin: '*', // Разрешить доступ со всех источников
+       origin: '*', // Разрешить доступ со всех источников
     credentials: true, // Разрешить передачу учетных данных (например, куки)
     methods: 'GET, POST, PUT, DELETE', // Разрешенные HTTP методы
     allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept', // Разрешенные заголовки

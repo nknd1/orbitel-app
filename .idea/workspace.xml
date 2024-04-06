@@ -6,10 +6,25 @@
   <component name="ChangeListManager">
     <list default="true" id="2eae43f4-3753-4267-96f5-03e4c9f78723" name="Changes" comment="first commit">
       <changelist_data name="User" email="prodblood@gmail.com" />
+      <change afterPath="$PROJECT_DIR$/ssl/example.com+4-key.pem" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ssl/example.com+4.pem" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ssl/myserver+4-key.pem" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ssl/myserver+4.pem" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cert/cert.crt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cert/keycert.key" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/server.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/client.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/client.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/contracts.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/contracts.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/services.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/services.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/tariffs.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/tariffs.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/type_service.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/type_service.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/users.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/users.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/middleware/authMiddleware.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/middlewares/authMiddleware.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/queries/contracts.queries.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/queries/contracts.queries.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routes/contracts.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/contracts.routes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routes/users.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/users.routes.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,8 +91,9 @@
     &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
     &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
     &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
-    &quot;javascript.nodejs.core.library.configured.version&quot;: &quot;18.17.1&quot;,
-    &quot;javascript.nodejs.core.library.typings.version&quot;: &quot;18.17.19&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;javascript.nodejs.core.library.configured.version&quot;: &quot;20.11.1&quot;,
+    &quot;javascript.nodejs.core.library.typings.version&quot;: &quot;20.11.30&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/User/WebstormProjects/serverorbitel&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
@@ -86,12 +102,13 @@
     &quot;nodejs_interpreter_path&quot;: &quot;node&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;npm.dev.executor&quot;: &quot;Run&quot;,
+    &quot;npm.start.executor&quot;: &quot;Run&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
     &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\User\\WebstormProjects\\serverorbitel\\client\\node_modules\\typescript\\lib&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\User\\AppData\\Local\\Programs\\WebStorm\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -130,9 +147,20 @@
       <envs />
       <method v="2" />
     </configuration>
+    <configuration name="start" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="start" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="npm.dev" />
+        <item itemvalue="npm.start" />
       </list>
     </recent_temporary>
   </component>
@@ -187,6 +215,34 @@
       <workItem from="1710503007823" duration="1244000" />
       <workItem from="1710508546377" duration="2355000" />
       <workItem from="1710864982448" duration="616000" />
+      <workItem from="1710875170301" duration="283000" />
+      <workItem from="1710876025434" duration="1825000" />
+      <workItem from="1710943618733" duration="1211000" />
+      <workItem from="1711010456173" duration="755000" />
+      <workItem from="1711011226830" duration="136000" />
+      <workItem from="1711011719999" duration="4651000" />
+      <workItem from="1711025109138" duration="6252000" />
+      <workItem from="1711104209957" duration="1875000" />
+      <workItem from="1711125591481" duration="2937000" />
+      <workItem from="1711128634385" duration="14000" />
+      <workItem from="1711190220771" duration="705000" />
+      <workItem from="1711190935801" duration="5290000" />
+      <workItem from="1711198262462" duration="2379000" />
+      <workItem from="1711201791034" duration="2029000" />
+      <workItem from="1711210949662" duration="1898000" />
+      <workItem from="1711276392257" duration="208000" />
+      <workItem from="1711441577715" duration="506000" />
+      <workItem from="1711552395765" duration="437000" />
+      <workItem from="1711553784214" duration="2513000" />
+      <workItem from="1711796438675" duration="3555000" />
+      <workItem from="1711814217785" duration="2047000" />
+      <workItem from="1711816653053" duration="450000" />
+      <workItem from="1711886477338" duration="4535000" />
+      <workItem from="1711891970615" duration="589000" />
+      <workItem from="1711911324648" duration="3180000" />
+      <workItem from="1711986160208" duration="3696000" />
+      <workItem from="1712042524723" duration="2000" />
+      <workItem from="1712083839104" duration="541000" />
     </task>
     <servers />
   </component>

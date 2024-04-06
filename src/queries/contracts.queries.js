@@ -5,9 +5,11 @@ const addContract = "INSERT INTO contracts(connect_address,contract_number, pers
 const removeContract = "DELETE FROM contracts WHERE contract_id = $1";
 const updateContract = "UPDATE contracts SET connect_address = $1 WHERE contract_id = $2";
 
-const getContractInfo = "SELECT * FROM contracts WHERE contract_number = $1";
-
+const getContractInfo = "SELECT contract_id, balance, contract_number, personal_account FROM Contracts WHERE contract_number = $1;";
 const getContractPassword = "SELECT password FROM contracts WHERE contract_number = $1;"
+
+//const topUpBalance = "INSERT INTO contracts(balance) VALUES($1)"
+
 module.exports = {
     getContracts,
     getContractsById,

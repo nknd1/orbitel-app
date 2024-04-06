@@ -42,7 +42,7 @@ const removeTariff = (req, res) =>{
     pool.query(queries.getTariffById, [tariff_id], (error, results)=>{
         const noTariffFound = !results.rows.length;
         if(noTariffFound){
-            res.send("Тариф не найден, не удалось удалить.")
+            res.status(404).send("Тариф не найден, не удалось удалить.")
         }
         pool.query(queries.removeTariff, [tariff_id], (error, results)=>{
             if(error) {
@@ -59,7 +59,7 @@ const updateTariff = (req, res) =>{
     pool.query(queries.getTariffById, [contract_id], (error, results)=>{
         const noTariffFound = !results.rows.length;
         if(noTariffFound){
-            res.send("Тариф не найден.")
+            res.status(404).send("Тариф не найден.")
         }
 
         pool.query(queries.updateContract, [tariff_name, price_per_month,speed], (error, results)=>{

@@ -55,12 +55,33 @@ const loginUser = async (req, res) => {
             return res.status(401).json({ message: 'Неверное имя пользователя или пароль.' });
         }
 
-        const token = jwt.sign({ login: user.rows[0].login, role: user.rows[0].role_id }, 'secret_key', { expiresIn: '1h' });
+        const token = jwt.sign({ user_id: user.rows[0].user_id, login: user.rows[0].login, role: user.rows[0].role_id }, 'secret_key', { expiresIn: '1h' });
 
         res.status(200).json({ token });
+        
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 };
+
+const UserProfile = async (req, res) =>{
+            try {
+            console.log('req.user:', req.user);
+            const { user_id, login, role_id} = req.user;
+
+
+            console.log('user_id:', user_id);
+            console.log('role_id:', role_id);
+
+            // Проверяем, что user_id и role_id являются числами
+
+            const bigRole = BigInt(role_id);
+
+
+            res.status(200).json({ user_id, login, role: bigRole});
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+}
 
 module.exports = { getUsers, getUserById, registerUser, loginUser };

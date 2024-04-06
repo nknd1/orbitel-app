@@ -28,7 +28,7 @@ const removeClient = (req, res) => {
         pool.query(queries.getClientById, [client_id], (error, results) => {
             const noClientFound = !results.rows.length;
             if (noClientFound) {
-                res.send("Клиент не найден")
+                res.status(404).send("Клиент не найден")
             }
             pool.query(queries.removeClient, [client_id], (error, results) => {
                 if (error) throw (error);
@@ -42,7 +42,7 @@ const updateClient = (req, res) => {
         pool.query(queries.getClientById, [client_id], (error, results) => {
             const noClientFound = !results.rows.length;
             if (noClientFound) {
-                res.send("Клиент не найден.")
+                res.status(404).send("Клиент не найден.")
             }
 
             pool.query(queries.updateClient, [client_phone, client_id], (error, results) => {
@@ -53,14 +53,14 @@ const updateClient = (req, res) => {
 }
 
 const registerClient = async (req, res) => {
-    const { type_id, client_name, client_phone, client_addres_registration, password } = req.body;
+    const { type_id, client_name, client_phone, client_address_registration, password } = req.body;
 
     try {
         const hashedPassword = await bcrypt.hash(password, 10); // Хеширование пароля
 
         await pool.query(
-            "INSERT INTO client (type_id, client_name, client_phone, client_addres_registration, password) VALUES ($1, $2, $3, $4, $5)",
-            [type_id, client_name, client_phone, client_addres_registration, hashedPassword]
+            "INSERT INTO client (type_id, client_name, client_phone, client_address_registration, password) VALUES ($1, $2, $3, $4, $5)",
+            [type_id, client_name, client_phone, client_address_registration, hashedPassword]
         );
 
         res.status(201).json({ message: 'Клиент успешно зарегистрирован.' });
@@ -72,6 +72,7 @@ const registerClient = async (req, res) => {
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const secretKey = 'secret_key';
+
 const generateAccessToken = (client_id) => {
     return jwt.sign({ client_id: client_id }, secretKey, { expiresIn: '1h' });
 };

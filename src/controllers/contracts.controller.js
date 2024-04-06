@@ -2,6 +2,8 @@ const pool = require('../../db');
 const queries = require('../queries/contracts.queries');
 const jwt = require('jsonwebtoken');
 
+
+
 const getContracts = (req, res) => {
    pool.query(queries.getContracts, (error, results) => {
         if (error) throw error;
@@ -47,11 +49,12 @@ const removeContract = (req, res) =>{
     pool.query(queries.getContractsById, [contract_id], (error, results)=>{
         const noContractFound = !results.rows.length;
         if(noContractFound){
-            res.send("Договор не найден, не удалось удалить.")
+            res.status(404).send("Договор не найден, не удалось удалить.")
         }
         pool.query(queries.removeContract, [contract_id], (error, results)=>{
             if(error) throw (error);
             res.status(200).send("Договор успешно удален.")
+
         })
     });
 };
@@ -62,7 +65,7 @@ const updateContract = (req, res) =>{
     pool.query(queries.getContractsById, [contract_id], (error, results)=>{
         const noContractFound = !results.rows.length;
         if(noContractFound){
-            res.send("Договор не найден.")
+            res.status(401).send("Договор не найден.")
         }
 
         pool.query(queries.updateContract, [connect_address, contract_id], (error, results)=>{
@@ -71,9 +74,17 @@ const updateContract = (req, res) =>{
         });
     });
 };
-const loginContract = async (req, res) => {
-    const { contract_number, password } = req.body;
 
+/*
+const tokenData = {
+    contract_number,
+    balance: updateBalance,
+    accountNumber: updatedAccountNumber,
+};
+ */
+/*
+const loginContract = async (req, res) => {
+    const {contract_number, password} = req.body;
     try {
         const { rows } = await pool.query(queries.getContractPassword, [contract_number]);
 
@@ -82,15 +93,15 @@ const loginContract = async (req, res) => {
         }
 
         const hashedPasswordFromDB = rows[0].password;
-
         const match = await bcrypt.compare(password, hashedPasswordFromDB);
 
         if (match) {
-            const token = jwt.sign({ contract_number }, 'your_secret_key', { expiresIn: '1h' });
-            const refreshToken = jwt.sign({ contract_number }, 'your_secret_key', { expiresIn: '7d' }); // Генерация Refresh Token
+            const token = jwt.sign({contract_number}, 'your_secret_key', { expiresIn: '1h' });
+            const refreshToken = jwt.sign({contract_number}, 'your_refresh_secret_key', { expiresIn: '7d' }); // Генерация Refresh Token
 
             console.log("Выдан новый токен и Refresh Token:", token, refreshToken);
             res.status(200).json({ token, refreshToken }); // Возвращение токена и Refresh Token
+
         } else {
             res.status(401).send("Неверный пароль");
         }
@@ -99,6 +110,7 @@ const loginContract = async (req, res) => {
         res.status(500).send("Ошибка при аутентификации");
     }
 };
+
 
 const refreshToken = async (req, res) => {
     const { refreshToken } = req.body;
@@ -118,9 +130,23 @@ const refreshToken = async (req, res) => {
     }
 };
 
+const logoutContract = async(req, res) =>{
+    const tokenToInvalidate = req.headers.authorization.split(' ')[1];
 
+    try {
+        await addToRevokedTokenList(tokenToInvalidate);
+        res.status(200).send("Вы успешно вышли из системы");
+    } catch (e) {
+        console.error(e);
+        res.status(500).send("Ошибка при выходе из системы");
+    }
+};
 
+const addToRevokedTokenList = async (token) =>{
+    await RevokedToken.create({token})
+};
 
+ */
 
 
 module.exports = {
@@ -129,7 +155,5 @@ module.exports = {
     addContract,
     removeContract,
     updateContract,
-    loginContract,
-    refreshToken,
 
 };

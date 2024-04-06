@@ -37,7 +37,7 @@ const removeServiceType = (req, res) => {
     pool.query(queries.getServiceTypeById, [id], (error, results)=>{
         const noServiceFound = !results.rows.length;
         if(noServiceFound){
-            res.send("тип услуги не найден.")
+            res.status(404).send("тип услуги не найден.")
         }
         pool.query(queries.removeServiceType, [id], (error, results)=>{
             if(error) throw (error);
@@ -51,7 +51,7 @@ const updateServiceType = (req, res) =>{
     pool.query(queries.getServiceTypeById, [id], (error, results)=>{
         const noServiceFound = !results.rows.length;
         if(noServiceFound){
-            res.send("тип услуги не найден.")
+            res.status(404).send("тип услуги не найден.")
         }
 
         pool.query(queries.updateServiceType, [name], (error, results)=>{

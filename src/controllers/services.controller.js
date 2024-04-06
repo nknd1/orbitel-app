@@ -30,7 +30,7 @@ const removeService = (req, res) => {
     pool.query(queries.getServiceById, [service_id], (error, results)=>{
         const noServiceFound = !results.rows.length;
         if(noServiceFound){
-            res.send("Услуга не найдена.")
+            res.status(404).send("Услуга не найдена.")
         }
         pool.query(queries.removeService, [service_id], (error, results)=>{
             if(error) throw (error);
@@ -43,7 +43,7 @@ const updateService = (req, res) =>{
     pool.query(queries.getServiceById, [service_id], (error, results)=>{
         const noServiceFound = !results.rows.length;
         if(noServiceFound){
-            res.send("Услуга не найдена.")
+            res.status(404).send("Услуга не найдена.")
         }
 
         pool.query(queries.updateService, [service_name, feature], (error, results)=>{

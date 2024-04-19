@@ -75,6 +75,15 @@ const updateContract = (req, res) =>{
     });
 };
 
+const getContractInfo = (req, res) => {
+    const contract_id = parseInt(req.params.contract_id);
+    pool.query(queries.getContractTariffInfo, [contract_id], (error, results) => {
+        if (error) throw new Error;
+        res.status(200).json(results.rows);
+    }
+)
+}
+
 /*
 const tokenData = {
     contract_number,
@@ -82,7 +91,7 @@ const tokenData = {
     accountNumber: updatedAccountNumber,
 };
  */
-/*
+
 const loginContract = async (req, res) => {
     const {contract_number, password} = req.body;
     try {
@@ -96,14 +105,14 @@ const loginContract = async (req, res) => {
         const match = await bcrypt.compare(password, hashedPasswordFromDB);
 
         if (match) {
-            const token = jwt.sign({contract_number}, 'your_secret_key', { expiresIn: '1h' });
+            const accessToken = jwt.sign({contract_number}, 'your_secret_key', { expiresIn: '1h' });
             const refreshToken = jwt.sign({contract_number}, 'your_refresh_secret_key', { expiresIn: '7d' }); // Генерация Refresh Token
 
-            console.log("Выдан новый токен и Refresh Token:", token, refreshToken);
-            res.status(200).json({ token, refreshToken }); // Возвращение токена и Refresh Token
+            console.log("Выдан новый токен и Refresh Token:", accessToken, refreshToken);
+            res.status(200).json({ accessToken, refreshToken }); // Возвращение токена и Refresh Token
 
         } else {
-            res.status(401).send("Неверный пароль");
+            res.status(401).send("Неверные данные");
         }
     } catch (error) {
         console.error(error);
@@ -146,7 +155,7 @@ const addToRevokedTokenList = async (token) =>{
     await RevokedToken.create({token})
 };
 
- */
+
 
 
 module.exports = {
@@ -155,5 +164,6 @@ module.exports = {
     addContract,
     removeContract,
     updateContract,
+    getContractInfo
 
 };

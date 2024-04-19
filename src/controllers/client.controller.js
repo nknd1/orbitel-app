@@ -53,17 +53,16 @@ const updateClient = (req, res) => {
 }
 
 const registerClient = async (req, res) => {
-    const { type_id, client_name, client_phone, client_address_registration, password } = req.body;
+    const { type_id, client_fio, client_phone, client_address_registration, series_passport, number_passport, issue_by, issue_date, expiration_date, inn, kpp, ogrn, okpo, okved, director} = req.body;
 
     try {
-        const hashedPassword = await bcrypt.hash(password, 10); // Хеширование пароля
 
         await pool.query(
-            "INSERT INTO client (type_id, client_name, client_phone, client_address_registration, password) VALUES ($1, $2, $3, $4, $5)",
-            [type_id, client_name, client_phone, client_address_registration, hashedPassword]
+            "INSERT INTO client (type_id, client_fio, client_phone, client_address_registration, series_passport, number_passport, issue_by, issue_date, expiration_date, inn, kpp, ogrn, okpo, okved, director ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)",
+            [type_id, client_fio, client_phone, client_address_registration, series_passport, number_passport, issue_by, issue_date, expiration_date, inn, kpp, ogrn, okpo, okved, director ]
         );
 
-        res.status(201).json({ message: 'Клиент успешно зарегистрирован.' });
+        res.status(201).json({ message: 'Заявка на подключение подана.' });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -91,11 +90,11 @@ const loginClient = async (req, res) => {
         const passwordMatch = await bcrypt.compare(password, hashedPassword);
 
         if (!passwordMatch) {
-            return res.status(401).json({ message: 'Неверный пароль' });
+            return res.status(401).json({ message: 'неверные данные' });
         }
 
         if (client.rows[0].client_phone !== client_phone) {
-            return res.status(401).json({ message: 'Неверный номер телефона' });
+            return res.status(401).json({ message: 'неверные данные' });
         }
 
         const accessToken = generateAccessToken(client_name);

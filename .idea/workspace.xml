@@ -6,25 +6,13 @@
   <component name="ChangeListManager">
     <list default="true" id="2eae43f4-3753-4267-96f5-03e4c9f78723" name="Changes" comment="first commit">
       <changelist_data name="User" email="prodblood@gmail.com" />
-      <change afterPath="$PROJECT_DIR$/ssl/example.com+4-key.pem" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ssl/example.com+4.pem" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ssl/myserver+4-key.pem" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ssl/myserver+4.pem" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cert/cert.crt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cert/keycert.key" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/server.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controllers/client.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/client.controller.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controllers/contracts.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/contracts.controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controllers/services.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/services.controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controllers/tariffs.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/tariffs.controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controllers/type_service.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/type_service.controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controllers/users.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/users.controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/middleware/authMiddleware.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/middlewares/authMiddleware.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/middlewares/authMiddleware.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/middlewares/authMiddleware.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/queries/contracts.queries.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/queries/contracts.queries.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/routes/contracts.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/contracts.routes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routes/users.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/users.routes.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,14 +40,12 @@
     &quot;assignee&quot;: &quot;nknd1&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">
-    <option name="selectedUrlAndAccountId">
-      <UrlAndAccount>
-        <option name="accountId" value="9af374ee-5272-4faf-9202-1982d78e24cd" />
-        <option name="url" value="https://github.com/nknd1/orbitel-app.git" />
-      </UrlAndAccount>
-    </option>
-  </component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/nknd1/orbitel-app.git&quot;,
+    &quot;accountId&quot;: &quot;9af374ee-5272-4faf-9202-1982d78e24cd&quot;
+  }
+}</component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/node_modules/jsonwebtoken/sign.js" root0="SKIP_INSPECTION" />
   </component>
@@ -164,6 +150,13 @@
       </list>
     </recent_temporary>
   </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-1d06a55b98c1-74d2a5396914-JavaScript-WS-241.14494.235" />
+      </set>
+    </attachedChunks>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -243,6 +236,10 @@
       <workItem from="1711986160208" duration="3696000" />
       <workItem from="1712042524723" duration="2000" />
       <workItem from="1712083839104" duration="541000" />
+      <workItem from="1712502854878" duration="33000" />
+      <workItem from="1712857223792" duration="128000" />
+      <workItem from="1712927941535" duration="87000" />
+      <workItem from="1712931199397" duration="7958000" />
     </task>
     <servers />
   </component>

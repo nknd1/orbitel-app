@@ -6,13 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="2eae43f4-3753-4267-96f5-03e4c9f78723" name="Changes" comment="first commit">
       <changelist_data name="User" email="prodblood@gmail.com" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controllers/client.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/client.controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controllers/contracts.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/contracts.controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/middlewares/authMiddleware.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/middlewares/authMiddleware.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/queries/contracts.queries.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/queries/contracts.queries.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routes/contracts.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/contracts.routes.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -240,6 +233,7 @@
       <workItem from="1712857223792" duration="128000" />
       <workItem from="1712927941535" duration="87000" />
       <workItem from="1712931199397" duration="7958000" />
+      <workItem from="1713513248608" duration="61000" />
     </task>
     <servers />
   </component>

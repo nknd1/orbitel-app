@@ -3,7 +3,6 @@ const clientRoutes = require('./src/routes/client.routes');
 const servicesRoutes = require('./src/routes/services.routes');
 const serviceTypeRoutes = require('./src/routes/type_service.routes');
 const tariffsRoutes = require('./src/routes/tariffs.routes');
-const usersRoutes = require('./src/routes/users.routes');
 const cors = require('cors');
 const express = require('express');
 const {json} = require("body-parser");
@@ -14,8 +13,8 @@ const app = express();
 
 app.use(cors({
        origin: '*', // Разрешить доступ со всех источников
-    credentials: true, // Разрешить передачу учетных данных (например, куки)
-    methods: 'GET, POST, PUT, DELETE', // Разрешенные HTTP методы
+        credentials: true, // Разрешить передачу учетных данных (например, куки)
+        methods: 'GET, POST, PUT',// Разрешенные HTTP методы
     allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept', // Разрешенные заголовки
 }));
 
@@ -57,7 +56,7 @@ app.use('/api/v1/contracts', cors(),contractsRoutes);
 app.use('/api/v1/services', cors(),servicesRoutes);
 app.use('/api/v1/type_service',cors(), serviceTypeRoutes);
 app.use('/api/v1/tariffs',cors(), tariffsRoutes);
-app.use('/api/v1/users', cors(), usersRoutes);
+
 
 
 

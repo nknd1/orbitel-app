@@ -1,6 +1,42 @@
 const pool = require('../../db');
 const queries = require('../queries/tariffs.queries');
 
+
+/*
+class TariffsController {
+    async getAll (req, res) {
+        try{
+            await pool.query(queries.getTariffs, (err, result) => {
+                result.status(200).json(result);
+            })
+        } catch (e) {
+            throw new Error(e);
+        }
+    };
+
+    async getTariffById (req, res) {
+        try {
+            const tariff_id = parseInt(req.params.tariff_id);
+            pool.query(queries.getTariffById, [tariff_id], (err, result) => {
+                result.status(200).json(result);
+            })
+        } catch (e) {
+            throw new Error(e);
+        }
+    };
+
+    async getTariffByName (req, res) {
+        try {
+            await pool.query()
+        } catch (error) {
+            throw new Error(error);
+        }
+    }
+
+}
+
+
+ */
 const getTariffs = async (req, res) => {
     pool.query(queries.getTariffs, (error, results) =>{
         if(error){

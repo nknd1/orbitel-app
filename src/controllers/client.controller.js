@@ -52,21 +52,7 @@ const updateClient = (req, res) => {
         });
 }
 
-const registerClient = async (req, res) => {
-    const { type_id, client_fio, client_phone, client_address_registration, series_passport, number_passport, issue_by, issue_date, expiration_date, inn, kpp, ogrn, okpo, okved, director} = req.body;
 
-    try {
-
-        await pool.query(
-            "INSERT INTO client (type_id, client_fio, client_phone, client_address_registration, series_passport, number_passport, issue_by, issue_date, expiration_date, inn, kpp, ogrn, okpo, okved, director ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)",
-            [type_id, client_fio, client_phone, client_address_registration, series_passport, number_passport, issue_by, issue_date, expiration_date, inn, kpp, ogrn, okpo, okved, director ]
-        );
-
-        res.status(201).json({ message: 'Заявка на подключение подана.' });
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-};
 
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
@@ -116,7 +102,6 @@ module.exports = {
     addClient,
     removeClient,
     updateClient,
-    registerClient,
     loginClient,
 };
 

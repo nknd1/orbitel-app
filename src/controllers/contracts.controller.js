@@ -23,7 +23,7 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10; // Количество раундов для генерации соли
 
 const addContract = (req, res) => {
-    const { connect_address, contract_number, personal_account, contract_client_id, password } = req.body;
+    const { connect_address, contract_number, personal_account, contract_client_id, password, ip_address, subnet_mask, dns1, dns2, gateway} = req.body;
 
     // Хешируем пароль
     bcrypt.hash(password, saltRounds, (err, hashedPassword) => {
@@ -32,7 +32,7 @@ const addContract = (req, res) => {
             return res.status(500).send("Ошибка хеширования пароля");
         }
 
-        pool.query(queries.addContract, [connect_address, contract_number, personal_account, contract_client_id, hashedPassword], (error, results) => {
+        pool.query(queries.addContract, [connect_address, contract_number, personal_account, contract_client_id, hashedPassword, ip_address, subnet_mask, dns1, dns2, gateway], (error, results) => {
             if (error) {
                 console.error(error);
                 return res.status(500).send("Ошибка при добавлении договора");

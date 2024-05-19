@@ -78,11 +78,32 @@ const updateContract = (req, res) =>{
 const getContractInfo = (req, res) => {
     const contract_id = parseInt(req.params.contract_id);
     pool.query(queries.getContractTariffInfo, [contract_id], (error, results) => {
-        if (error) throw new Error;
+        if (error) throw error;
         res.status(200).json(results.rows);
     }
 )
 }
+
+const getDeposits = async (req, res) => {
+    try {
+        const results = await pool.query(queries.getContractDeposit);
+        res.status(200).json(results.rows);
+    } catch (error) {
+        console.error('Error executing getDeposits query:', error.stack);
+        res.status(500).json({ error: 'Ошибка сервера при получении данных о депозитах' });
+    }
+};
+
+const getWriteoffs = async (req, res) => {
+    try {
+        const results = await pool.query(queries.getContractWriteoffs);
+        res.status(200).json(results.rows);
+    } catch (error) {
+        console.error('Error executing getWriteoffs query:', error.stack);
+        res.status(500).json({ error: 'Ошибка сервера при получении данных о списаниях' });
+    }
+};
+
 
 /*
 const tokenData = {
@@ -164,6 +185,7 @@ module.exports = {
     addContract,
     removeContract,
     updateContract,
-    getContractInfo
-
+    getContractInfo,
+    getDeposits,
+    getWriteoffs,
 };

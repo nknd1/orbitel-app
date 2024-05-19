@@ -11,6 +11,8 @@ const app = express();
 
 
 
+
+
 app.use(cors({
        origin: '*', // Разрешить доступ со всех источников
         credentials: true, // Разрешить передачу учетных данных (например, куки)
@@ -56,7 +58,6 @@ app.use('/api/v1/contracts', cors(),contractsRoutes);
 app.use('/api/v1/services', cors(),servicesRoutes);
 app.use('/api/v1/type_service',cors(), serviceTypeRoutes);
 app.use('/api/v1/tariffs',cors(), tariffsRoutes);
-
 
 
 

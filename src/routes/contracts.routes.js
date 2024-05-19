@@ -5,6 +5,8 @@ const router = Router();
 
 
 router.get("/", cors(),controller.getContracts);
+router.get("/writeoff", cors(),controller.getWriteoffs);
+router.get("/deposit", cors(), controller.getDeposits);
 router.get("/:contract_id", cors(), controller.getContractInfo);
 router.post("/", cors(),controller.addContract);
 router.get("/:contract_id", cors(),controller.getContractsById);

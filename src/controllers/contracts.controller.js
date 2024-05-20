@@ -104,6 +104,28 @@ const getWriteoffs = async (req, res) => {
     }
 };
 
+const deductBalance = async () => {
+    const amountToDeduct = 10; // Сумма для списания
+
+    try {
+        await pool.query('BEGIN'); // Начало транзакции
+
+        // Получение всех счетов, у которых баланс больше 0
+        const res = await pool.query('SELECT contract_id, balance FROM contracts WHERE balance > $1', [amountToDeduct]);
+
+        // Обновление баланса для каждого счета
+        for (const row of res.rows) {
+            const newBalance = row.balance - amountToDeduct;
+            await pool.query('UPDATE contracts SET balance = $1 WHERE contract_id = $2', [newBalance, row.contract_id]);
+        }
+
+        await pool.query('COMMIT'); // Завершение транзакции
+        console.log('Balances updated successfully');
+    } catch (error) {
+        await pool.query('ROLLBACK'); // Откат транзакции в случае ошибки
+        console.error('Error deducting balance:', error.stack);
+    }
+};
 
 /*
 const tokenData = {
@@ -188,4 +210,5 @@ module.exports = {
     getContractInfo,
     getDeposits,
     getWriteoffs,
+    deductBalance,
 };

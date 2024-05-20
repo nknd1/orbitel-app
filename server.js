@@ -7,10 +7,13 @@ const cors = require('cors');
 const express = require('express');
 const {json} = require("body-parser");
 const {configDotenv} = require("dotenv");
+const {deductBalance} = require("./src/controllers/contracts.controller");
 const app = express();
 
 
+const balanceDeductionInterval = 300000; // 5 минут в миллисекундах
 
+setInterval(deductBalance, balanceDeductionInterval);
 
 
 app.use(cors({

@@ -1,31 +1,24 @@
-import jwt from "jsonwebtoken";
-import pool from "../../db";
+const jwt = require('jsonwebtoken');
+const SECRET_KEY = '123' // Замените на ваш секретный ключ
 
-
-
-
-const verifyToken = (req, res, next) => {
+const authenticateToken = (req, res, next) => {
     const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1]
-    console.log('User data from token:', req.user);
+    const token = authHeader && authHeader.split(' ')[1];
+
     if (!token) {
-        return res.status(401).json({ message: 'Отсутствует токен авторизации.' });
+        console.log('No token found');
+        return res.sendStatus(401); // Unauthorized
     }
 
-    jwt.verify(token, 'secret_key', (err, decoded) => {
+    jwt.verify(token, SECRET_KEY, (err, user) => {
         if (err) {
-            return res.status(401).json({ message: 'Недействительный токен авторизации.' });
+            console.error('Token verification failed:', err);
+            console.log('Token:', token);
+            console.log('Secret Key:', SECRET_KEY);
+            return res.sendStatus(403); // Forbidden
         }
-
-        req.user = decoded;
-        console.log(decoded);
-
+        req.user = user;
         next();
     });
 };
-
-
-
-
- 
-module.exports = {verifyToken}
+module.exports = authenticateToken;

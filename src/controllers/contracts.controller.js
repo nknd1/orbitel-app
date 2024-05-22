@@ -1,7 +1,7 @@
 const pool = require('../../db');
 const queries = require('../queries/contracts.queries');
 const jwt = require('jsonwebtoken');
-
+const dotenv = require("dotenv");
 
 
 const getContracts = (req, res) => {
@@ -127,42 +127,116 @@ const deductBalance = async () => {
     }
 };
 
+const topUpBalance = async (contract_id, balance) => {
+    try {
+        await pool.query('BEGIN'); // Начало транзакции
+
+        // Получение текущего баланса
+        const res = await pool.query('SELECT balance FROM contracts WHERE contract_id = $1', [contract_id]);
+        if (res.rows.length === 0) {
+            throw new Error('Договор не найден');
+        }
+
+        const currentBalance = parseFloat(res.rows[0].balance); // Преобразование в число
+        const newBalance = currentBalance + parseFloat(balance); // Преобразование и сложение
+
+        // Обновление баланса
+        await pool.query('UPDATE contracts SET balance = $1 WHERE contract_id = $2', [newBalance, contract_id]);
+
+        await pool.query('COMMIT'); // Завершение транзакции
+        console.log('Balance updated successfully');
+        return newBalance;
+    } catch (error) {
+        await pool.query('ROLLBACK'); // Откат транзакции в случае ошибки
+        console.error('Error topping up balance:', error.stack);
+        throw error;
+    }
+};
+
+const topUpContractBalance = async (req, res) => {
+    const { contract_id, balance } = req.body;
+
+    if (!contract_id || !balance || isNaN(balance) || balance <= 0) {
+        return res.status(400).json({ error: 'Invalid contract_id or balance' });
+    }
+
+    try {
+        const newBalance = await topUpBalance(contract_id, balance);
+        res.status(200).json({ message: 'Balance topped up successfully', newBalance });
+    } catch (error) {
+        res.status(500).json({ error: 'Ошибка сервера при пополнении баланса' });
+    }
+};
+
+
 /*
 const tokenData = {
     contract_number,
     balance: updateBalance,
     accountNumber: updatedAccountNumber,
 };
- */
+ */ // Замените на ваш секретный ключ
+const SECRET_KEY = '123'
 
-const loginContract = async (req, res) => {
-    const {contract_number, password} = req.body;
+// Вход пользователя
+const login = async (req, res) => {
+    const { personal_account, password } = req.body;
+
     try {
-        const { rows } = await pool.query(queries.getContractPassword, [contract_number]);
-
-        if (rows.length === 0) {
-            return res.status(401).send("Договор с указанным номером не найден");
+        // Поиск пользователя в базе данных по account_number
+        const result = await pool.query('SELECT * FROM contracts WHERE personal_account = $1', [personal_account]);
+        if (result.rows.length === 0) {
+            console.log('User not found:', personal_account);
+            return res.status(400).json({ error: 'Invalid account number or password' });
         }
 
-        const hashedPasswordFromDB = rows[0].password;
-        const match = await bcrypt.compare(password, hashedPasswordFromDB);
+        const user = result.rows[0];
 
-        if (match) {
-            const accessToken = jwt.sign({contract_number}, 'your_secret_key', { expiresIn: '1h' });
-            const refreshToken = jwt.sign({contract_number}, 'your_refresh_secret_key', { expiresIn: '7d' }); // Генерация Refresh Token
-
-            console.log("Выдан новый токен и Refresh Token:", accessToken, refreshToken);
-            res.status(200).json({ accessToken, refreshToken }); // Возвращение токена и Refresh Token
-
-        } else {
-            res.status(401).send("Неверные данные");
+        // Сравнение пароля
+        const isValidPassword = await bcrypt.compare(password, user.password);
+        if (!isValidPassword) {
+            console.log('Invalid password for account:', personal_account);
+            return res.status(400).json({ error: 'Invalid account number or password' });
         }
+
+        // Генерация JWT токена
+        const token = jwt.sign({ personal_account: user.personal_account, contract_id: user.contract_id }, SECRET_KEY, { expiresIn: '1h' });
+
+        console.log("Generated token for user:", user.personal_account);
+        console.log(token)
+        res.status(200).json({ token });
     } catch (error) {
-        console.error(error);
-        res.status(500).send("Ошибка при аутентификации");
+        console.error('Server error during user login:', error);
+        res.status(500).json({ error: 'Ошибка сервера при входе пользователя' });
     }
 };
 
+
+const getContractAndClientInfo = async (req, res) => {
+    const { personal_account } = req.user;
+
+    try {
+        const result = await pool.query(
+            /*
+            `SELECT c.personal_account, c.balance, cl.fio
+             FROM contracts c
+             JOIN client cl ON c.client_id = cl.id
+             WHERE c.personal_account = $1`,
+            [personal_account]
+
+             */
+            'SELECT * FROM contracts WHERE personal_account = $1',[personal_account]
+        );
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({ error: 'Contract not found' });
+        }
+
+        res.status(200).json(result.rows[0]);
+    } catch (error) {
+        res.status(500).json({ error: 'Ошибка сервера при получении информации о договоре и клиенте' });
+    }
+};
 
 const refreshToken = async (req, res) => {
     const { refreshToken } = req.body;
@@ -211,4 +285,9 @@ module.exports = {
     getDeposits,
     getWriteoffs,
     deductBalance,
+    topUpBalance,
+    topUpContractBalance,
+    login,
+    getContractAndClientInfo,
+
 };

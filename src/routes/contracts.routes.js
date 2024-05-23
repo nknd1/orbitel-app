@@ -6,7 +6,8 @@ const router = Router();
 
 
 router.get("/", cors(),controller.getContracts);
-router.post("/login", cors(), controller.login)
+router.post("/service", cors(), controller.addServiceToTariff);
+router.post("/login", cors(), controller.login);
 router.get('/contract-info', authenticateToken, controller.getContractAndClientInfo);
 router.post('/top-up', cors(), controller.topUpContractBalance);
 router.get("/writeoff", cors(),controller.getWriteoffs);

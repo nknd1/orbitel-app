@@ -104,8 +104,35 @@ const getWriteoffs = async (req, res) => {
     }
 };
 
+
+
+
+const addServiceToTariff = async (req, res) => {
+    const { service_id, tariff_id } = req.body;
+
+    if (!service_id || !tariff_id) {
+      return res.status(400).json({ error: 'service_id and tariff_id are required' });
+    }
+
+        try{
+
+        await pool.query('INSERT INTO service_connect (service_id, tariff_id) VALUES ($1, $2)', [service_id, tariff_id]);
+        res.status(201).json({ message: 'Service added successfully' });
+    } catch (error) {
+        
+        console.error('Error during service addition:', error);
+        res.status(500).json({ error: 'Server error during service addition' });
+    }
+};
+
+
+
+
+
+
+
 const deductBalance = async () => {
-    const amountToDeduct = 10; // Сумма для списания
+    const amountToDeduct = 5; // Сумма для списания
 
     try {
         await pool.query('BEGIN'); // Начало транзакции
@@ -289,5 +316,6 @@ module.exports = {
     topUpContractBalance,
     login,
     getContractAndClientInfo,
+    addServiceToTariff,
 
 };

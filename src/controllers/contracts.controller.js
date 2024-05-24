@@ -129,8 +129,6 @@ const addServiceToTariff = async (req, res) => {
 
 
 
-
-
 const deductBalance = async () => {
     const amountToDeduct = 5; // Сумма для списания
 
@@ -317,5 +315,4 @@ module.exports = {
     login,
     getContractAndClientInfo,
     addServiceToTariff,
-
 };

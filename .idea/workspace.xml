@@ -7,6 +7,11 @@
     <list default="true" id="2eae43f4-3753-4267-96f5-03e4c9f78723" name="Changes" comment="first commit">
       <changelist_data name="User" email="prodblood@gmail.com" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/server.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/contracts.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/contracts.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/tariffs.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/tariffs.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routes/tariffs.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/tariffs.routes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routes/type_service.routes.js" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -252,6 +257,7 @@
       <workItem from="1716146996344" duration="3755000" />
       <workItem from="1716192993663" duration="3378000" />
       <workItem from="1716367046584" duration="14871000" />
+      <workItem from="1716532906211" duration="5041000" />
     </task>
     <servers />
   </component>

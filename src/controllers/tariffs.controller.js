@@ -35,8 +35,33 @@ class TariffsController {
 
 }
 
-
  */
+
+const getTariffConnect = async (req, res) => {
+    const tariff_id = req.params.tariff_id;
+    try {
+        const tariffResult = await pool.query('SELECT * FROM tariffs WHERE tariff_id = $1', [tariff_id]);
+        const servicesResult = await pool.query(`
+             SELECT services.* FROM services
+            JOIN service_connect ON services.service_id = service_connect.service_id
+            WHERE service_connect.tariff_id = $1;
+        `, [tariff_id]);
+
+        if (tariffResult.rows.length === 0) {
+            return res.status(404).json({ error: 'Tariff not found' });
+        }
+
+        const tariff = tariffResult.rows[0];
+        const services = servicesResult.rows;
+
+        res.json({ tariff, services });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
+
 const getTariffs = async (req, res) => {
     pool.query(queries.getTariffs, (error, results) =>{
         if(error){
@@ -113,4 +138,6 @@ module.exports = {
     addTariff,
     removeTariff,
     updateTariff,
+    getTariffConnect,
+   
 };

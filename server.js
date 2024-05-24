@@ -1,7 +1,6 @@
 const contractsRoutes = require('./src/routes/contracts.routes');
 const clientRoutes = require('./src/routes/client.routes');
 const servicesRoutes = require('./src/routes/services.routes');
-const serviceTypeRoutes = require('./src/routes/type_service.routes');
 const tariffsRoutes = require('./src/routes/tariffs.routes');
 const cors = require('cors');
 const express = require('express');
@@ -59,7 +58,6 @@ app.use(express.json())
 app.use('/api/v1/clients', cors(), clientRoutes);
 app.use('/api/v1/contracts', cors(),contractsRoutes);
 app.use('/api/v1/services', cors(),servicesRoutes);
-app.use('/api/v1/type_service',cors(), serviceTypeRoutes);
 app.use('/api/v1/tariffs',cors(), tariffsRoutes);
 
 

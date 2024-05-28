@@ -203,6 +203,8 @@ const tokenData = {
  */ // Замените на ваш секретный ключ
 const SECRET_KEY = '123'
 
+
+/*
 // Вход пользователя
 const login = async (req, res) => {
     const { personal_account, password } = req.body;
@@ -236,6 +238,8 @@ const login = async (req, res) => {
     }
 };
 
+
+ */
 
 const getContractAndClientInfo = async (req, res) => {
     const { personal_account } = req.user;
@@ -312,7 +316,6 @@ module.exports = {
     deductBalance,
     topUpBalance,
     topUpContractBalance,
-    login,
     getContractAndClientInfo,
     addServiceToTariff,
 };

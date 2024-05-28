@@ -7,11 +7,13 @@
     <list default="true" id="2eae43f4-3753-4267-96f5-03e4c9f78723" name="Changes" comment="first commit">
       <changelist_data name="User" email="prodblood@gmail.com" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caac.restbook" beforeDir="false" afterPath="$PROJECT_DIR$/caac.restbook" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/server.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/client.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/client.controller.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controllers/contracts.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/contracts.controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controllers/tariffs.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/tariffs.controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routes/tariffs.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/tariffs.routes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routes/type_service.routes.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/queries/client.queries.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/queries/client.queries.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routes/client.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/client.routes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routes/contracts.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/contracts.routes.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -91,7 +93,7 @@
     &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;discord-application&quot;,
     &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;,
     &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\User\\AppData\\Local\\Programs\\WebStorm\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
@@ -257,7 +259,12 @@
       <workItem from="1716146996344" duration="3755000" />
       <workItem from="1716192993663" duration="3378000" />
       <workItem from="1716367046584" duration="14871000" />
-      <workItem from="1716532906211" duration="5041000" />
+      <workItem from="1716532906211" duration="5059000" />
+      <workItem from="1716555247897" duration="3258000" />
+      <workItem from="1716821897270" duration="956000" />
+      <workItem from="1716830843944" duration="20000" />
+      <workItem from="1716830875327" duration="219000" />
+      <workItem from="1716894549620" duration="6845000" />
     </task>
     <servers />
   </component>

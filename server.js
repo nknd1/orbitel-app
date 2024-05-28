@@ -10,7 +10,7 @@ const {deductBalance} = require("./src/controllers/contracts.controller");
 const app = express();
 
 
-const balanceDeductionInterval = 300000; // 5 минут в миллисекундах
+const balanceDeductionInterval = 8000000; // 5 минут в миллисекундах
 
 setInterval(deductBalance, balanceDeductionInterval);
 

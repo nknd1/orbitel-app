@@ -154,23 +154,17 @@ const loginClient = async (req, res) => {
 
  */
 const getClientInfo = async (req, res) => {
-    const { client_phone } = req.user;
+    console.log(req.user)
+    const { client_id } = req.user;
 
     try {
         const result = await pool.query(
-            /*
-            `SELECT c.personal_account, c.balance, cl.fio
-             FROM contracts c
-             JOIN client cl ON c.client_id = cl.id
-             WHERE c.personal_account = $1`,
-            [personal_account]
-
-             */
-            'SELECT * FROM client JOIN contracts on client.client_id = contracts.contract_client_id where client_phone = $1',[client_phone]
+           
+            'SELECT client.client_id, client.client_fio AS client_fio, client.client_phone,   client.client_address_registration,  client_type.name AS client_type FROM client JOIN client_type ON client.type_id = client_type.id WHERE client.client_id = $1',[client_id]
         );
 
         if (result.rows.length === 0) {
-            return res.status(404).json({ error: 'Contract not found' });
+            return res.status(404).json({ error: 'client not found' });
         }
 
         res.status(200).json(result.rows[0]);
@@ -178,6 +172,27 @@ const getClientInfo = async (req, res) => {
         res.status(500).json({ error: 'Ошибка сервера при получении информации о договоре и клиенте' });
     }
 };
+
+const getContractInfo = async (req, res) => {
+    console.log(req.user); // Вывод информации о пользователе для отладки
+   
+    const { client_id } = req.user;
+    console.log('cID: ', client_id);
+
+    try {
+        const result = await pool.query('SELECT * FROM contracts WHERE contract_client_id = $1', [client_id]);
+        if (result.rows) {
+          res.json(result.rows);
+        } else {
+          res.status(404).json({ error: 'No contracts found' });
+        }
+      } catch (error) {
+        console.error('Database query error:', error); // Логирование ошибки
+        res.status(500).json({ error: 'Internal Server Error' });
+      }
+    };
+
+
 
 
 module.exports = {
@@ -188,5 +203,6 @@ module.exports = {
     updateClient,
     loginClient,
     getClientInfo,
+    getContractInfo,
 };
 

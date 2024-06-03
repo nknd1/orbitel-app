@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const SECRET_KEY = '123' // Замените на ваш секретный ключ
+const SECRET_KEY = '123' // секретный ключ
 
 const authenticateToken = (req, res, next) => {
     const authHeader = req.headers['authorization'];

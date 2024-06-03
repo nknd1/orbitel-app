@@ -160,7 +160,7 @@ const getClientInfo = async (req, res) => {
     try {
         const result = await pool.query(
            
-            'SELECT client.client_id, client.client_fio AS client_fio, client.client_phone,   client.client_address_registration,  client_type.name AS client_type FROM client JOIN client_type ON client.type_id = client_type.id WHERE client.client_id = $1',[client_id]
+            'SELECT client.client_id, client.client_fio AS client_fio, client.client_phone, client.client_address_registration,  client_type.name AS client_type FROM client JOIN client_type ON client.type_id = client_type.id WHERE client.client_id = $1',[client_id]
         );
 
         if (result.rows.length === 0) {
@@ -192,7 +192,45 @@ const getContractInfo = async (req, res) => {
       }
     };
 
+// Обработчик пополнения баланса в договоре
+const upBalanceInContract = async (req, res) => {
+    const { client_id } = req.user;
+    console.log()
+    const { balance } = req.body;
+  
+    
+    if (!balance || isNaN(balance) || balance <= 0) {
+      return res.status(400).json({ error: 'Invalid amount' });
+    }
+  
+    try {
+      // Получить текущий баланс
+      const contractResult = await pool.query('SELECT balance FROM contracts WHERE contract_client_id = $1', [client_id]);
+      
+      if (contractResult.rows.length === 0) {
+        return res.status(404).json({ error: 'Contract not found' });
+      }
+  
+      const currentBalance = contractResult.rows[0].balance;
+      const newBalance = currentBalance + parseFloat(balance);
 
+      // Обновить баланс
+      const updateResult = await pool.query(
+        'UPDATE contracts SET balance = $1 WHERE contract_client_id = $2 RETURNING *',
+        [newBalance, client_id]
+      );
+  
+      res.json({ newBalance: updateResult.rows[0].balance });
+    } catch (error) {
+      console.error('Database query error:', error); // Логирование ошибки
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+
+
+
+
+    
+  };
 
 
 module.exports = {
@@ -204,5 +242,6 @@ module.exports = {
     loginClient,
     getClientInfo,
     getContractInfo,
+    upBalanceInContract,
 };
 

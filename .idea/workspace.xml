@@ -6,7 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="2eae43f4-3753-4267-96f5-03e4c9f78723" name="Changes" comment="first commit">
       <changelist_data name="User" email="prodblood@gmail.com" />
+      <change afterPath="$PROJECT_DIR$/error/s.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/client.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/client.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/type_service.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/type_service.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/middlewares/authMiddleware.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/middlewares/authMiddleware.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -86,7 +90,7 @@
     &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;discord-application&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
     &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;,
     &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\User\\AppData\\Local\\Programs\\WebStorm\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
@@ -258,6 +262,11 @@
       <workItem from="1716830843944" duration="20000" />
       <workItem from="1716830875327" duration="219000" />
       <workItem from="1716894549620" duration="10478000" />
+      <workItem from="1717157491630" duration="2315000" />
+      <workItem from="1717321141369" duration="8795000" />
+      <workItem from="1717349989089" duration="4294000" />
+      <workItem from="1717395278841" duration="4093000" />
+      <workItem from="1717425768256" duration="903000" />
     </task>
     <servers />
   </component>

@@ -192,6 +192,50 @@ const getContractInfo = async (req, res) => {
       }
     };
 
+const connectTariffToContract = async(req, res) => {
+    const { client_id } = req.user; 
+    const { contract_id, tariff_id} = req.body
+
+    if(!contract_id || isNaN(contract_id) || !tariff_id || isNaN(tariff_id)){
+        return res.status(400).json({error: 'Invalid contract or tariff ID'})
+    }
+    try {
+        // Проверка, существует ли договор
+        const contractResult = await pool.query('SELECT * FROM contracts WHERE contract_id = $1 AND contract_client_id = $2', [contract_id, client_id]);
+        if (contractResult.rows.length === 0) {
+          return res.status(404).json({ error: 'Contract not found' });
+        }
+    
+        // Проверка, существует ли тариф
+        const tariffResult = await pool.query('SELECT * FROM tariffs WHERE tariff_id = $1', [tariff_id]);
+        if (tariffResult.rows.length === 0) {
+          return res.status(404).json({ error: 'Tariff not found' });
+        }
+    
+        // Проверка, не подключен ли тариф уже к договору
+        const existingConnectionResult = await pool.query(
+          'SELECT * FROM tariff_connect WHERE contract_id = $1 AND tariff_id = $2',
+          [contract_id, tariff_id]
+        );
+    
+        if (existingConnectionResult.rows.length > 0) {
+          return res.status(400).json({ error: 'Tariff already connected to this contract' });
+        }
+    
+        // Добавление связи между тарифом и договором
+        const insertResult = await pool.query(
+          'INSERT INTO tariff_connect (contract_id, tariff_id) VALUES ($1, $2) RETURNING *',
+          [contract_id, tariff_id]
+        );
+    
+        res.json(insertResult.rows[0]);
+      } catch (error) {
+        console.error('Database query error:', error); // Логирование ошибки
+        res.status(500).json({ error: 'Internal Server Error' });
+      }
+    };
+
+
 // Обработчик пополнения баланса в договоре
 const upBalanceInContract = async (req, res) => {
     const { client_id } = req.user;
@@ -225,12 +269,11 @@ const upBalanceInContract = async (req, res) => {
       console.error('Database query error:', error); // Логирование ошибки
       res.status(500).json({ error: 'Internal Server Error' });
     }
+};
 
 
 
 
-    
-  };
 
 
 module.exports = {
@@ -243,5 +286,6 @@ module.exports = {
     getClientInfo,
     getContractInfo,
     upBalanceInContract,
+    connectTariffToContract,
 };
 

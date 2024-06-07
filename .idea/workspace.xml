@@ -6,11 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="2eae43f4-3753-4267-96f5-03e4c9f78723" name="Changes" comment="first commit">
       <changelist_data name="User" email="prodblood@gmail.com" />
-      <change afterPath="$PROJECT_DIR$/error/s.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controllers/client.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/client.controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controllers/type_service.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/type_service.controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/middlewares/authMiddleware.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/middlewares/authMiddleware.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -267,6 +263,7 @@
       <workItem from="1717349989089" duration="4294000" />
       <workItem from="1717395278841" duration="4093000" />
       <workItem from="1717425768256" duration="903000" />
+      <workItem from="1717685060216" duration="32000" />
     </task>
     <servers />
   </component>

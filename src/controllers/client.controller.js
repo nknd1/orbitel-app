@@ -11,7 +11,7 @@ const getClients = (req, res) => {
             console.log(req.headers.cookie);
         });
     };
-const getClientById = (req, res) => {
+const getClientById = (req, res) => {g
         const client_id = parseInt(req.params.client_id);
         pool.query(queries.getClientById, [client_id], (error, results) => {
             if (error) throw error;

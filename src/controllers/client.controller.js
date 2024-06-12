@@ -175,7 +175,6 @@ const getClientInfo = async (req, res) => {
 
 const getContractInfo = async (req, res) => {
     console.log(req.user); // Вывод информации о пользователе для отладки
-   
     const { client_id } = req.user;
     console.log('cID: ', client_id);
 
@@ -239,7 +238,6 @@ const connectTariffToContract = async(req, res) => {
 // Обработчик пополнения баланса в договоре
 const upBalanceInContract = async (req, res) => {
     const { client_id } = req.user;
-    console.log()
     const { balance } = req.body;
   
     

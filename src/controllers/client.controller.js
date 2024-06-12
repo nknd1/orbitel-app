@@ -270,6 +270,32 @@ const upBalanceInContract = async (req, res) => {
 };
 
 
+const getContractDetails = async (req, res) => {
+    const { client_id } = req.user;
+    const { contract_id } = req.params;
+
+    try {
+        const result = await pool.query(
+            `SELECT c.contract_id, c.balance, t.tariff_name AS tariff_name,t.price_per_month AS tariff_price, t.speed AS speed
+            FROM contracts c
+            JOIN tariff_connect tc ON c.contract_id = tc.contract_id
+            JOIN tariffs t ON tc.tariff_id = t.tariff_id
+            WHERE c.contract_client_id = $1`,
+            [client_id]
+        );
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({ error: 'Contract not found' });
+        }
+
+        const contractDetails = result.rows[0];
+    
+        res.json(contractDetails);
+    } catch (error) {
+        console.error('Database query error:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
 
 
 
@@ -285,5 +311,6 @@ module.exports = {
     getContractInfo,
     upBalanceInContract,
     connectTariffToContract,
+    getContractDetails,
 };
 

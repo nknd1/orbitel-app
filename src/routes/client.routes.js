@@ -4,6 +4,8 @@ const router = Router();
 const cors = require('cors');
 const authenticateToken = require("../middlewares/authMiddleware");
 
+router.get('/details', authenticateToken, controller.getContractDetails);
+
 router.post('/tariff', authenticateToken, controller.connectTariffToContract);
 
 router.get('/contract', authenticateToken, controller.getContractInfo);

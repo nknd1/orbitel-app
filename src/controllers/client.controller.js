@@ -272,7 +272,6 @@ const upBalanceInContract = async (req, res) => {
 
 const getContractDetails = async (req, res) => {
     const { client_id } = req.user;
-    const { contract_id } = req.params;
 
     try {
         const result = await pool.query(

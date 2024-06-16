@@ -311,7 +311,35 @@ const getContractDetails = async (req, res) => {
 };
 
 
+const removeServiceFromContract = async (req, res) => {
+    const { client_id } = req.user;
+    const { contract_id, service_id } = req.params;
 
+    try {
+        // Проверьте, что контракт принадлежит текущему пользователю
+        const contractResult = await pool.query(
+            `SELECT contract_id FROM contracts WHERE contract_id = $1 AND contract_client_id = $2`,
+            [contract_id, client_id]
+        );
+
+        if (contractResult.rows.length === 0) {
+            return res.status(404).json({ error: 'Contract not found or does not belong to the user' });
+        }
+
+        // Удалите услугу из тарифа
+        await pool.query(
+            `DELETE FROM service_connect WHERE tariff_id = (
+                SELECT tariff_id FROM tariff_connect WHERE contract_id = $1
+            ) AND service_id = $2`,
+            [contract_id, service_id]
+        );
+
+        res.status(200).json({ message: 'Service removed successfully' });
+    } catch (error) {
+        console.error('Database query error:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
 
 module.exports = {
     getClients,
@@ -325,5 +353,6 @@ module.exports = {
     upBalanceInContract,
     connectTariffToContract,
     getContractDetails,
+    removeServiceFromContract,
 };
 

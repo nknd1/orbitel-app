@@ -12,7 +12,7 @@ router.get('/contract', authenticateToken, controller.getContractInfo);
 
 router.post('/balance', authenticateToken, controller.upBalanceInContract);
 
-
+router.delete('/contracts/:contract_id/services/:service_id', authenticateToken, controller.removeServiceFromContract);
 
 
 router.get("/", cors(), controller.getClients);

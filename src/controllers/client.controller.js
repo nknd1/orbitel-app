@@ -239,33 +239,35 @@ const connectTariffToContract = async(req, res) => {
 const upBalanceInContract = async (req, res) => {
     const { client_id } = req.user;
     const { balance } = req.body;
-  
-    
-    if (!balance || isNaN(balance) || balance <= 0) {
-      return res.status(400).json({ error: 'Invalid amount' });
-    }
-  
-    try {
-      // Получить текущий баланс
-      const contractResult = await pool.query('SELECT balance FROM contracts WHERE contract_client_id = $1', [client_id]);
-      
-      if (contractResult.rows.length === 0) {
-        return res.status(404).json({ error: 'Contract not found' });
-      }
-  
-      const currentBalance = contractResult.rows[0].balance;
-      const newBalance = currentBalance + parseFloat(balance);
 
-      // Обновить баланс
-      const updateResult = await pool.query(
-        'UPDATE contracts SET balance = $1 WHERE contract_client_id = $2 RETURNING *',
-        [newBalance, client_id]
-      );
-  
-      res.json({ newBalance: updateResult.rows[0].balance });
+    // Проверка и преобразование balance в число
+    const balanceNumber = parseFloat(balance);
+
+    if (!balance || isNaN(balanceNumber) || balanceNumber <= 0) {
+        return res.status(400).json({ error: 'Invalid amount' });
+    }
+
+    try {
+        // Получить текущий баланс
+        const contractResult = await pool.query('SELECT balance FROM contracts WHERE contract_client_id = $1', [client_id]);
+
+        if (contractResult.rows.length === 0) {
+            return res.status(404).json({ error: 'Contract not found' });
+        }
+
+        const currentBalance = parseFloat(contractResult.rows[0].balance);
+        const newBalance = currentBalance + balanceNumber;
+
+        // Обновить баланс
+        const updateResult = await pool.query(
+            'UPDATE contracts SET balance = $1 WHERE contract_client_id = $2 RETURNING *',
+            [newBalance, client_id]
+        );
+
+        res.json({ newBalance: updateResult.rows[0].balance });
     } catch (error) {
-      console.error('Database query error:', error); // Логирование ошибки
-      res.status(500).json({ error: 'Internal Server Error' });
+        console.error('Database query error:', error); // Логирование ошибки
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 };
 
@@ -288,8 +290,20 @@ const getContractDetails = async (req, res) => {
         }
 
         const contractDetails = result.rows[0];
+
+        const serviceResult = await pool.query(
+            `SELECT s.service_id, s.service_name, s.feature, s.price
+            FROM services s
+            JOIN service_connect sc ON s.service_id = sc.service_id
+            WHERE sc.tariff_id = (
+                SELECT tc.tariff_id
+                FROM tariff_connect tc
+                WHERE tc.contract_id = $1)`,
+            [contractDetails.contract_id]
+        );
+        const services = serviceResult.rows;
     
-        res.json(contractDetails);
+        res.status(200).json({contractDetails, services});
     } catch (error) {
         console.error('Database query error:', error);
         res.status(500).json({ error: 'Internal Server Error' });

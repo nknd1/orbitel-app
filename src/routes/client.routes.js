@@ -12,6 +12,8 @@ router.get('/contract', authenticateToken, controller.getContractInfo);
 
 router.post('/balance', authenticateToken, controller.upBalanceInContract);
 
+router.post('/:contract_id/services/:service_id', authenticateToken, controller.addServiceToContract);
+
 router.delete('/contracts/:contract_id/services/:service_id', authenticateToken, controller.removeServiceFromContract);
 
 

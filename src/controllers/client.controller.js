@@ -41,6 +41,7 @@ const removeClient = (req, res) => {
             })
         });
     };
+
 const updateClient = (req, res) => {
         const client_id = parseInt(req.params.client_id);
         const {client_phone} = req.body;
@@ -88,7 +89,7 @@ const loginClient = async (req, res) => {
         // Поиск пользователя в базе данных по номеру телефона
         const result = await pool.query('SELECT * FROM client WHERE client_phone = $1', [client_phone]);
         if (result.rows.length === 0) {
-            console.log('User not found:', client_phone);
+            console.log('Клиент не найден:', client_phone);
             return res.status(400).json({ error: 'Invalid client_phone or password' });
         }
 
@@ -341,6 +342,35 @@ const removeServiceFromContract = async (req, res) => {
     }
 };
 
+const addServiceToContract = async (req, res) => {
+    const { client_id } = req.user;
+    const { contract_id, service_id } = req.params;
+
+    try {
+        // Check if the contract belongs to the current user
+        const contractResult = await pool.query(
+            `SELECT contract_id FROM contracts WHERE contract_id = $1 AND contract_client_id = $2`,
+            [contract_id, client_id]
+        );
+
+        if (contractResult.rows.length === 0) {
+            return res.status(404).json({ error: 'Contract not found or does not belong to the user' });
+        }
+
+        // Add the service to the tariff
+        await pool.query(
+            `INSERT INTO service_connect (tariff_id, service_id)
+             SELECT tariff_id, $2 FROM tariff_connect WHERE contract_id = $1`,
+            [contract_id, service_id]
+        );
+
+        res.status(200).json({ message: 'Service added successfully' });
+    } catch (error) {
+        console.error('Database query error:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+        
+    }
+};
 module.exports = {
     getClients,
     getClientById,
@@ -354,5 +384,6 @@ module.exports = {
     connectTariffToContract,
     getContractDetails,
     removeServiceFromContract,
+    addServiceToContract,
 };
 

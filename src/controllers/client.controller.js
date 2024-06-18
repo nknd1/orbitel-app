@@ -180,7 +180,20 @@ const getContractInfo = async (req, res) => {
     console.log('cID: ', client_id);
 
     try {
-        const result = await pool.query('SELECT * FROM contracts WHERE contract_client_id = $1', [client_id]);
+        const result = await pool.query(`
+        SELECT 
+        c.contract_id,
+        c.contract_number,
+        c.connect_address,
+        c.balance,
+        c.personal_account
+    FROM 
+        client_contracts cc
+    JOIN 
+        contracts c ON cc.contract_id = c.contract_id
+    WHERE 
+        cc.client_id = $1;
+    `, [client_id]);
         if (result.rows) {
           res.json(result.rows);
         } else {
@@ -275,41 +288,71 @@ const upBalanceInContract = async (req, res) => {
 
 const getContractDetails = async (req, res) => {
     const { client_id } = req.user;
+    const { contract_id } = req.query; // Извлекаем contract_id из query параметров запроса
 
     try {
-        const result = await pool.query(
-            `SELECT c.contract_id, c.balance, t.tariff_name AS tariff_name,t.price_per_month AS tariff_price, t.speed AS speed
-            FROM contracts c
-            JOIN tariff_connect tc ON c.contract_id = tc.contract_id
-            JOIN tariffs t ON tc.tariff_id = t.tariff_id
-            WHERE c.contract_client_id = $1`,
-            [client_id]
-        );
+        // Запрос на получение информации о договоре
+        const contractQuery = `
+            SELECT 
+                c.contract_id,
+                t.tariff_name AS tariff_name,
+                t.price_per_month AS tariff_price,
+                t.speed AS speed
+            FROM 
+                contracts c
+            JOIN 
+                client_contracts cc ON c.contract_id = cc.contract_id
+            JOIN 
+                tariff_connect tc ON c.contract_id = tc.contract_id
+            JOIN 
+                tariffs t ON tc.tariff_id = t.tariff_id
+            WHERE 
+                cc.client_id = $1
+                AND c.contract_id = $2
+        `;
+        const contractParams = [client_id, contract_id]; // Параметры для запроса
 
-        if (result.rows.length === 0) {
+        const contractResult = await pool.query(contractQuery, contractParams);
+
+        // Проверка наличия результатов
+        if (contractResult.rows.length === 0) {
             return res.status(404).json({ error: 'Contract not found' });
         }
 
-        const contractDetails = result.rows[0];
+        // Детали договора
+        const contractDetails = contractResult.rows[0];
 
-        const serviceResult = await pool.query(
-            `SELECT s.service_id, s.service_name, s.feature, s.price
-            FROM services s
-            JOIN service_connect sc ON s.service_id = sc.service_id
-            WHERE sc.tariff_id = (
-                SELECT tc.tariff_id
-                FROM tariff_connect tc
-                WHERE tc.contract_id = $1)`,
-            [contractDetails.contract_id]
-        );
-        const services = serviceResult.rows;
-    
-        res.status(200).json({contractDetails, services});
+        // Запрос на получение услуг для данного договора
+        const servicesQuery = `
+            SELECT 
+                s.service_id,
+                s.service_name,
+                s.feature,
+                s.price
+            FROM 
+                services s
+            JOIN 
+                service_connect sc ON s.service_id = sc.service_id
+            WHERE 
+                sc.tariff_id IN (
+                    SELECT tc.tariff_id
+                    FROM tariff_connect tc
+                    WHERE tc.contract_id = $1
+                )
+        `;
+        const servicesParams = [contract_id]; // Параметры для запроса услуг
+
+        const servicesResult = await pool.query(servicesQuery, servicesParams);
+        const services = servicesResult.rows;
+
+        // Отправка успешного ответа с деталями договора и услугами
+        res.status(200).json({ contractDetails, services });
     } catch (error) {
         console.error('Database query error:', error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
+
 
 
 const removeServiceFromContract = async (req, res) => {

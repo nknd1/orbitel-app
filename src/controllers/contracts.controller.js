@@ -298,5 +298,4 @@ module.exports = {
     topUpBalance,
     topUpContractBalance,
     getContractAndClientInfo,
-    addServiceToTariff,
 };

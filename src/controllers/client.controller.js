@@ -360,9 +360,9 @@ const removeServiceFromContract = async (req, res) => {
     const { contract_id, service_id } = req.params;
 
     try {
-        // Проверьте, что контракт принадлежит текущему пользователю
+        // Проверяем, что контракт принадлежит текущему пользователю через таблицу client_contracts
         const contractResult = await pool.query(
-            `SELECT contract_id FROM contracts WHERE contract_id = $1 AND contract_client_id = $2`,
+            `SELECT contract_id FROM clients_contracts WHERE contract_id = $1 AND client_id = $2`,
             [contract_id, client_id]
         );
 
@@ -370,7 +370,7 @@ const removeServiceFromContract = async (req, res) => {
             return res.status(404).json({ error: 'Contract not found or does not belong to the user' });
         }
 
-        // Удалите услугу из тарифа
+        // Удаляем услугу из тарифа
         await pool.query(
             `DELETE FROM service_connect WHERE tariff_id = (
                 SELECT tariff_id FROM tariff_connect WHERE contract_id = $1
@@ -385,14 +385,15 @@ const removeServiceFromContract = async (req, res) => {
     }
 };
 
+
 const addServiceToContract = async (req, res) => {
     const { client_id } = req.user;
     const { contract_id, service_id } = req.params;
 
     try {
-        // Check if the contract belongs to the current user
+        // Проверяем, что контракт принадлежит текущему пользователю через таблицу client_contracts
         const contractResult = await pool.query(
-            `SELECT contract_id FROM contracts WHERE contract_id = $1 AND contract_client_id = $2`,
+            `SELECT contract_id FROM clients_contracts WHERE contract_id = $1 AND client_id = $2`,
             [contract_id, client_id]
         );
 
@@ -400,7 +401,7 @@ const addServiceToContract = async (req, res) => {
             return res.status(404).json({ error: 'Contract not found or does not belong to the user' });
         }
 
-        // Add the service to the tariff
+        // Добавляем услугу к тарифу
         await pool.query(
             `INSERT INTO service_connect (tariff_id, service_id)
              SELECT tariff_id, $2 FROM tariff_connect WHERE contract_id = $1`,
@@ -411,9 +412,9 @@ const addServiceToContract = async (req, res) => {
     } catch (error) {
         console.error('Database query error:', error);
         res.status(500).json({ error: 'Internal Server Error' });
-        
     }
 };
+
 module.exports = {
     getClients,
     getClientById,

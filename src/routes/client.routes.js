@@ -14,11 +14,15 @@ router.post('/balance', authenticateToken, controller.upBalanceInContract);
 
 router.post('/contracts/:contract_id/services/:service_id', authenticateToken, controller.addServiceToContract);
 
+router.put('/contracts/:contract_id/change-tariff/:tariff_id', authenticateToken, controller.changeTariff);
+
 router.delete('/contracts/:contract_id/services/:service_id', authenticateToken, controller.removeServiceFromContract);
 
 
 router.get("/", cors(), controller.getClients);
+
 router.post("/", cors(),controller.addClient);
+
 router.get('/info', authenticateToken, controller.getClientInfo);
 
 router.post("/login", cors(),controller.loginClient);

@@ -362,7 +362,7 @@ const removeServiceFromContract = async (req, res) => {
     try {
         // Проверяем, что контракт принадлежит текущему пользователю через таблицу client_contracts
         const contractResult = await pool.query(
-            `SELECT contract_id FROM clients_contracts WHERE contract_id = $1 AND client_id = $2`,
+            `SELECT contract_id FROM client_contracts WHERE contract_id = $1 AND client_id = $2`,
             [contract_id, client_id]
         );
 
@@ -393,7 +393,7 @@ const addServiceToContract = async (req, res) => {
     try {
         // Проверяем, что контракт принадлежит текущему пользователю через таблицу client_contracts
         const contractResult = await pool.query(
-            `SELECT contract_id FROM clients_contracts WHERE contract_id = $1 AND client_id = $2`,
+            `SELECT contract_id FROM client_contracts WHERE contract_id = $1 AND client_id = $2`,
             [contract_id, client_id]
         );
 
@@ -415,6 +415,35 @@ const addServiceToContract = async (req, res) => {
     }
 };
 
+const changeTariff = async (req, res) => {
+    const { client_id } = req.user;
+    const { contract_id, new_tariff_id } = req.params;
+
+    try {
+        // Проверка, что контракт принадлежит текущему пользователю через client_contracts
+        const contractResult = await pool.query(
+            `SELECT contract_id FROM client_contracts WHERE contract_id = $1 AND client_id = $2`,
+            [contract_id, client_id]
+        );
+
+        if (contractResult.rows.length === 0) {
+            return res.status(404).json({ error: 'Contract not found or does not belong to the user' });
+        }
+
+        // Обновление тарифа, связанного с контрактом
+        await pool.query(
+            `UPDATE tariff_connect SET tariff_id = $1 WHERE contract_id = $2`,
+            [new_tariff_id, contract_id]
+        );
+
+        res.status(200).json({ message: 'Tariff changed successfully' });
+    } catch (error) {
+        console.error('Database query error:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
+
 module.exports = {
     getClients,
     getClientById,
@@ -429,5 +458,6 @@ module.exports = {
     getContractDetails,
     removeServiceFromContract,
     addServiceToContract,
+    changeTariff,
 };
 

@@ -417,7 +417,7 @@ const addServiceToContract = async (req, res) => {
 
 const changeTariff = async (req, res) => {
     const { client_id } = req.user;
-    const { contract_id, new_tariff_id } = req.params;
+    const { contract_id, tariff_id } = req.params;
 
     try {
         // Проверка, что контракт принадлежит текущему пользователю через client_contracts
@@ -433,7 +433,7 @@ const changeTariff = async (req, res) => {
         // Обновление тарифа, связанного с контрактом
         await pool.query(
             `UPDATE tariff_connect SET tariff_id = $1 WHERE contract_id = $2`,
-            [new_tariff_id, contract_id]
+            [tariff_id, contract_id]
         );
 
         res.status(200).json({ message: 'Tariff changed successfully' });
@@ -442,6 +442,75 @@ const changeTariff = async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
+
+const addBalance = async (req, res) => {
+    const { client_id } = req.user;
+    const { contract_id, balance } = req.body;
+
+    try {
+        // Проверка, что контракт принадлежит текущему пользователю через client_contracts
+        const contractResult = await pool.query(
+            `SELECT contract_id FROM client_contracts WHERE contract_id = $1 AND client_id = $2`,
+            [contract_id, client_id]
+        );
+
+        if (contractResult.rows.length === 0) {
+            return res.status(404).json({ error: 'Contract not found or does not belong to the user' });
+        }
+
+        // Обновление баланса контракта
+        await pool.query(
+            `UPDATE contracts SET balance = balance + $1 WHERE contract_id = $2`,
+            [balance, contract_id]
+        );
+
+        res.status(200).json({ message: 'Balance added successfully' });
+    } catch (error) {
+        console.error('Database query error:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
+const getOperationHistory = async (req, res) => {
+    const { client_id } = req.user;
+    const { contract_id } = req.params;
+
+    try {
+        // Проверьте, что контракт принадлежит текущему пользователю
+        const contractResult = await pool.query(
+            `SELECT contract_id FROM client_contracts WHERE contract_id = $1 AND client_id = $2`,
+            [contract_id, client_id]
+        );
+
+        if (contractResult.rows.length === 0) {
+            return res.status(404).json({ error: 'Contract not found or does not belong to the user' });
+        }
+
+        // Получение истории пополнений
+        const depositsResult = await pool.query(
+            `SELECT * FROM deposits WHERE contract_id = $1 ORDER BY date DESC`,
+            [contract_id]
+        );
+
+        // Получение истории списаний
+        const writeoffsResult = await pool.query(
+            `SELECT * FROM writeoffs WHERE contract_id = $1 ORDER BY date DESC`,
+            [contract_id]
+        );
+
+        res.status(200).json({
+            deposits: depositsResult.rows,
+            writeoffs: writeoffsResult.rows
+        });
+    } catch (error) {
+        console.error('Database query error:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
+// В вашем роутере добавьте новый маршрут
+
+
 
 
 module.exports = {
@@ -459,5 +528,7 @@ module.exports = {
     removeServiceFromContract,
     addServiceToContract,
     changeTariff,
+    addBalance,
+    getOperationHistory,
 };
 

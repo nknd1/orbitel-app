@@ -12,7 +12,7 @@ router.post('/tariff', authenticateToken, controller.connectTariffToContract);
 
 router.get('/contract', authenticateToken, controller.getContractInfo);
 
-router.post('/balance', authenticateToken, controller.upBalanceInContract);
+
 
 router.post('/contracts/:contract_id/services/:service_id', authenticateToken, controller.addServiceToContract);
 
@@ -20,7 +20,7 @@ router.put('/contracts/:contract_id/change-tariff/:tariff_id', authenticateToken
 
 router.delete('/contracts/:contract_id/services/:service_id', authenticateToken, controller.removeServiceFromContract);
 
-router.put('/contracts/add-balance', authenticateToken, controller.addBalance);
+router.put('/contracts/:contract_id/top-up', authenticateToken, controller.topUpBalance);
 
 router.get("/", cors(), controller.getClients);
 

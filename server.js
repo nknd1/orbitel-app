@@ -12,7 +12,7 @@ const app = express();
 
 const balanceDeductionInterval = 8000000; // 5 минут в миллисекундах
 
-setInterval(deductBalance, balanceDeductionInterval);
+//setInterval(deductBalance, balanceDeductionInterval);
 
 
 app.use(cors({

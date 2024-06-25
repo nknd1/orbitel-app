@@ -38,6 +38,7 @@ const removeService = (req, res) => {
         })
     });
 };
+
 const updateService = (req, res) =>{
     const service_id = parseInt(req.params.service_id);
     pool.query(queries.getServiceById, [service_id], (error, results)=>{

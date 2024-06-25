@@ -3,6 +3,9 @@ const queries = require('../queries/client.queries');
 const bcrypt = require('bcrypt');
 const jwt = require("jsonwebtoken");
 const saltRounds = 10;
+const SECRET_KEY = '123'
+const REFRESH_SECRET_KEY = '456';
+
 
 const getClients = (req, res) => {
         pool.query(queries.getClients, (error, results) => {
@@ -11,6 +14,7 @@ const getClients = (req, res) => {
             console.log(req.headers.cookie);
         });
     };
+
 const getClientById = (req, res) => {g
         const client_id = parseInt(req.params.client_id);
         pool.query(queries.getClientById, [client_id], (error, results) => {
@@ -18,16 +22,28 @@ const getClientById = (req, res) => {g
             res.status(200).json(results.rows);
         });
     };
-/*
-const addClient = (req, res) => {
-        const {type_id, client_name, client_phone, client_addres_registration, contract_id} = req.body;
-        pool.query(queries.addClient, [type_id, client_name, client_phone, client_addres_registration, contract_id], (error, results) => {
-            if (error) throw error;
-            res.status(201).send("Клиент успешно добавлен.")
-        });
-    };
 
- */
+const addClient = (req, res) => {
+    const {type_id, client_fio, client_phone, client_address_registration, password} = req.body;
+
+    // Хешируем пароль
+    bcrypt.hash(password, saltRounds, (err, hashedPassword) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).send("Ошибка хеширования пароля");
+        }
+
+        pool.query(queries.addClient, [type_id, client_fio, client_phone, client_address_registration, hashedPassword], (error, results) => {
+            if (error) {
+                console.error(error);
+                return res.status(500).send("Ошибка при добавлении нового клиента");
+            }
+
+            res.status(201).send("Клиент успешно создан.");
+        });
+    });
+};
+
 const removeClient = (req, res) => {
         const client_id = parseInt(req.params.client_id);
         pool.query(queries.getClientById, [client_id], (error, results) => {
@@ -58,35 +74,11 @@ const updateClient = (req, res) => {
         });
 }
 
-
-
-const addClient = (req, res) => {
-    const {type_id, client_fio, client_phone, client_address_registration, password} = req.body;
-
-    // Хешируем пароль
-    bcrypt.hash(password, saltRounds, (err, hashedPassword) => {
-        if (err) {
-            console.error(err);
-            return res.status(500).send("Ошибка хеширования пароля");
-        }
-
-        pool.query(queries.addClient, [type_id, client_fio, client_phone, client_address_registration, hashedPassword], (error, results) => {
-            if (error) {
-                console.error(error);
-                return res.status(500).send("Ошибка при добавлении нового клиента");
-            }
-
-            res.status(201).send("Клиент успешно создан.");
-        });
-    });
-};
-const SECRET_KEY = '123'
-const REFRESH_SECRET_KEY = '456';
 const loginClient = async (req, res) => {
     const { client_phone, password } = req.body;
 
     try {
-        // Поиск пользователя в базе данных по номеру телефона
+
         const result = await pool.query('SELECT * FROM client WHERE client_phone = $1', [client_phone]);
         if (result.rows.length === 0) {
             console.log('Клиент не найден:', client_phone);
@@ -102,7 +94,7 @@ const loginClient = async (req, res) => {
             return res.status(400).json({ error: 'Invalid client_phone or password' });
         }
 
-        // Генерация JWT токена
+
         const token = jwt.sign({ client_phone: user.client_phone, client_id: user.client_id }, SECRET_KEY, { expiresIn: '1h' });
 
         const refreshToken = jwt.sign({ client_phone: user.client_phone, client_id: user.client_id }, REFRESH_SECRET_KEY, { expiresIn: '7d' });
@@ -119,48 +111,13 @@ const loginClient = async (req, res) => {
     }
 };
 
-
-/*
-const loginClient = async (req, res) => {
-    const { client_name, client_phone } = req.body;
-
-    try {
-        const client = await pool.query('SELECT * FROM client WHERE client_name = $1', [client_name]);
-
-        if (client.rows.length === 0) {
-            return res.status(401).json({ message: 'Неверные учетные данные' });
-        }
-
-        const hashedPassword = client.rows[0].password;
-        const passwordMatch = await bcrypt.compare(password, hashedPassword);
-
-        if (!passwordMatch) {
-            return res.status(401).json({ message: 'неверные данные' });
-        }
-
-        if (client.rows[0].client_phone !== client_phone) {
-            return res.status(401).json({ message: 'неверные данные' });
-        }
-
-        const accessToken = generateAccessToken(client_name);
-
-        return res.status(200).json({ accessToken: accessToken, message: 'Успешная аутентификация' });
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({ message: 'Что-то пошло не так' });
-    }
-};
-
-
-
- */
 const getClientInfo = async (req, res) => {
     console.log(req.user)
     const { client_id } = req.user;
 
     try {
         const result = await pool.query(
-           
+
             'SELECT client.client_id, client.client_fio AS client_fio, client.client_phone, client.client_address_registration,  client_type.name AS client_type FROM client JOIN client_type ON client.type_id = client_type.id WHERE client.client_id = $1',[client_id]
         );
 
@@ -175,7 +132,7 @@ const getClientInfo = async (req, res) => {
 };
 
 const getContractInfo = async (req, res) => {
-    console.log(req.user); // Вывод информации о пользователе для отладки
+    console.log(req.user);
     const { client_id } = req.user;
     console.log('cID: ', client_id);
 
@@ -206,41 +163,31 @@ const getContractInfo = async (req, res) => {
     };
 
 const connectTariffToContract = async(req, res) => {
-    const { client_id } = req.user; 
+    const { client_id } = req.user;
     const { contract_id, tariff_id} = req.body
-
     if(!contract_id || isNaN(contract_id) || !tariff_id || isNaN(tariff_id)){
         return res.status(400).json({error: 'Invalid contract or tariff ID'})
     }
     try {
-        // Проверка, существует ли договор
         const contractResult = await pool.query('SELECT * FROM contracts WHERE contract_id = $1 AND contract_client_id = $2', [contract_id, client_id]);
         if (contractResult.rows.length === 0) {
           return res.status(404).json({ error: 'Contract not found' });
         }
-    
-        // Проверка, существует ли тариф
         const tariffResult = await pool.query('SELECT * FROM tariffs WHERE tariff_id = $1', [tariff_id]);
         if (tariffResult.rows.length === 0) {
           return res.status(404).json({ error: 'Tariff not found' });
         }
-    
-        // Проверка, не подключен ли тариф уже к договору
         const existingConnectionResult = await pool.query(
           'SELECT * FROM tariff_connect WHERE contract_id = $1 AND tariff_id = $2',
           [contract_id, tariff_id]
         );
-    
         if (existingConnectionResult.rows.length > 0) {
           return res.status(400).json({ error: 'Tariff already connected to this contract' });
         }
-    
-        // Добавление связи между тарифом и договором
         const insertResult = await pool.query(
           'INSERT INTO tariff_connect (contract_id, tariff_id) VALUES ($1, $2) RETURNING *',
           [contract_id, tariff_id]
         );
-    
         res.json(insertResult.rows[0]);
       } catch (error) {
         console.error('Database query error:', error); // Логирование ошибки
@@ -248,50 +195,12 @@ const connectTariffToContract = async(req, res) => {
       }
     };
 
-
-// Обработчик пополнения баланса в договоре
-const upBalanceInContract = async (req, res) => {
-    const { client_id } = req.user;
-    const { balance } = req.body;
-
-    // Проверка и преобразование balance в число
-    const balanceNumber = parseFloat(balance);
-
-    if (!balance || isNaN(balanceNumber) || balanceNumber <= 0) {
-        return res.status(400).json({ error: 'Invalid amount' });
-    }
-
-    try {
-        // Получить текущий баланс
-        const contractResult = await pool.query('SELECT balance FROM contracts WHERE contract_client_id = $1', [client_id]);
-
-        if (contractResult.rows.length === 0) {
-            return res.status(404).json({ error: 'Contract not found' });
-        }
-
-        const currentBalance = parseFloat(contractResult.rows[0].balance);
-        const newBalance = currentBalance + balanceNumber;
-
-        // Обновить баланс
-        const updateResult = await pool.query(
-            'UPDATE contracts SET balance = $1 WHERE contract_client_id = $2 RETURNING *',
-            [newBalance, client_id]
-        );
-
-        res.json({ newBalance: updateResult.rows[0].balance });
-    } catch (error) {
-        console.error('Database query error:', error); // Логирование ошибки
-        res.status(500).json({ error: 'Internal Server Error' });
-    }
-};
-
-
 const getContractDetails = async (req, res) => {
     const { client_id } = req.user;
-    const { contract_id } = req.query; // Извлекаем contract_id из query параметров запроса
+    const { contract_id } = req.query;
 
     try {
-        // Запрос на получение информации о договоре
+
         const contractQuery = `
             SELECT 
                 c.contract_id,
@@ -314,15 +223,15 @@ const getContractDetails = async (req, res) => {
 
         const contractResult = await pool.query(contractQuery, contractParams);
 
-        // Проверка наличия результатов
+
         if (contractResult.rows.length === 0) {
             return res.status(404).json({ error: 'Contract not found' });
         }
 
-        // Детали договора
+
         const contractDetails = contractResult.rows[0];
 
-        // Запрос на получение услуг для данного договора
+
         const servicesQuery = `
             SELECT 
                 s.service_id,
@@ -353,38 +262,29 @@ const getContractDetails = async (req, res) => {
     }
 };
 
-
-
 const removeServiceFromContract = async (req, res) => {
     const { client_id } = req.user;
     const { contract_id, service_id } = req.params;
-
     try {
-        // Проверяем, что контракт принадлежит текущему пользователю через таблицу client_contracts
         const contractResult = await pool.query(
             `SELECT contract_id FROM client_contracts WHERE contract_id = $1 AND client_id = $2`,
             [contract_id, client_id]
         );
-
         if (contractResult.rows.length === 0) {
             return res.status(404).json({ error: 'Contract not found or does not belong to the user' });
         }
-
-        // Удаляем услугу из тарифа
         await pool.query(
             `DELETE FROM service_connect WHERE tariff_id = (
                 SELECT tariff_id FROM tariff_connect WHERE contract_id = $1
             ) AND service_id = $2`,
             [contract_id, service_id]
         );
-
         res.status(200).json({ message: 'Service removed successfully' });
     } catch (error) {
         console.error('Database query error:', error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
-
 
 const addServiceToContract = async (req, res) => {
     const { client_id } = req.user;
@@ -420,7 +320,7 @@ const changeTariff = async (req, res) => {
     const { contract_id, tariff_id } = req.params;
 
     try {
-        // Проверка, что контракт принадлежит текущему пользователю через client_contracts
+
         const contractResult = await pool.query(
             `SELECT contract_id FROM client_contracts WHERE contract_id = $1 AND client_id = $2`,
             [contract_id, client_id]
@@ -430,7 +330,7 @@ const changeTariff = async (req, res) => {
             return res.status(404).json({ error: 'Contract not found or does not belong to the user' });
         }
 
-        // Обновление тарифа, связанного с контрактом
+
         await pool.query(
             `UPDATE tariff_connect SET tariff_id = $1 WHERE contract_id = $2`,
             [tariff_id, contract_id]
@@ -443,30 +343,56 @@ const changeTariff = async (req, res) => {
     }
 };
 
-const addBalance = async (req, res) => {
-    const { client_id } = req.user;
-    const { contract_id, balance } = req.body;
+const topUpBalance = async (req, res) => {
+    const { client_id } = req.user;  // Получаем client_id из токена авторизации
+    const { contract_id } = req.params; // Получаем contract_id из URL параметра
+    const { balance } = req.body; // Получаем сумму пополнения из тела запроса
+
+    if (!balance || isNaN(balance)) {
+        return res.status(400).json({ error: 'Invalid balance amount' });
+    }
+
+    const parsedContractId = parseInt(contract_id, 10); // Преобразование contract_id в число
+
+    if (isNaN(parsedContractId)) {
+        return res.status(400).json({ error: 'Invalid contract ID' });
+    }
 
     try {
-        // Проверка, что контракт принадлежит текущему пользователю через client_contracts
+        await pool.query('BEGIN'); // Начало транзакции
+
+        // Проверка, принадлежит ли контракт пользователю
         const contractResult = await pool.query(
-            `SELECT contract_id FROM client_contracts WHERE contract_id = $1 AND client_id = $2`,
-            [contract_id, client_id]
+            `SELECT c.contract_id 
+             FROM contracts c
+             JOIN client_contracts cc ON c.contract_id = cc.contract_id
+             WHERE c.contract_id = $1 AND cc.client_id = $2`,
+            [parsedContractId, client_id]
         );
 
         if (contractResult.rows.length === 0) {
+            await pool.query('ROLLBACK');
             return res.status(404).json({ error: 'Contract not found or does not belong to the user' });
         }
 
-        // Обновление баланса контракта
-        await pool.query(
-            `UPDATE contracts SET balance = balance + $1 WHERE contract_id = $2`,
-            [balance, contract_id]
-        );
+        // Получение текущего баланса
+        const balanceResult = await pool.query('SELECT balance FROM contracts WHERE contract_id = $1', [parsedContractId]);
+        if (balanceResult.rows.length === 0) {
+            await pool.query('ROLLBACK');
+            return res.status(404).json({ error: 'Contract not found' });
+        }
 
-        res.status(200).json({ message: 'Balance added successfully' });
+        const currentBalance = parseFloat(balanceResult.rows[0].balance); // Преобразование в число
+        const newBalance = currentBalance + parseFloat(balance); // Преобразование и сложение
+
+        // Обновление баланса
+        await pool.query('UPDATE contracts SET balance = $1 WHERE contract_id = $2', [newBalance, parsedContractId]);
+
+        await pool.query('COMMIT'); // Завершение транзакции
+        res.status(200).json({ message: 'Balance topped up successfully', newBalance: newBalance });
     } catch (error) {
-        console.error('Database query error:', error);
+        await pool.query('ROLLBACK'); // Откат транзакции в случае ошибки
+        console.error('Database query error:', error.stack);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
@@ -488,13 +414,13 @@ const getOperationHistory = async (req, res) => {
 
         // Получение истории пополнений
         const depositsResult = await pool.query(
-            `SELECT * FROM deposits WHERE contract_id = $1 ORDER BY date DESC`,
+            `SELECT deposit_id, date_deposits, time_deposits, amount, contract_id FROM deposits WHERE contract_id = $1 ORDER BY date_deposits DESC, time_deposits DESC`,
             [contract_id]
         );
 
         // Получение истории списаний
         const writeoffsResult = await pool.query(
-            `SELECT * FROM writeoffs WHERE contract_id = $1 ORDER BY date DESC`,
+            `SELECT writeoff_id, date_writeoffs, time_writeoffs, amount, reason, contract_id FROM writeoffs WHERE contract_id = $1 ORDER BY date_writeoffs DESC, time_writeoffs DESC`,
             [contract_id]
         );
 
@@ -508,9 +434,6 @@ const getOperationHistory = async (req, res) => {
     }
 };
 
-// В вашем роутере добавьте новый маршрут
-
-
 
 
 module.exports = {
@@ -522,13 +445,12 @@ module.exports = {
     loginClient,
     getClientInfo,
     getContractInfo,
-    upBalanceInContract,
     connectTariffToContract,
     getContractDetails,
     removeServiceFromContract,
     addServiceToContract,
     changeTariff,
-    addBalance,
+    topUpBalance,
     getOperationHistory,
 };
 

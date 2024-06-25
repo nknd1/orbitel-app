@@ -6,9 +6,16 @@
   <component name="ChangeListManager">
     <list default="true" id="2eae43f4-3753-4267-96f5-03e4c9f78723" name="Changes" comment="first commit">
       <changelist_data name="User" email="prodblood@gmail.com" />
+      <change afterPath="$PROJECT_DIR$/ngrok.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/server.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controllers/client.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/client.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/contracts.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/contracts.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/services.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/services.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/tariffs.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/tariffs.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/queries/type_service.queries.js" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/routes/client.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/client.routes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routes/tariffs.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/tariffs.routes.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -88,7 +95,7 @@
     &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
     &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;,
     &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\User\\AppData\\Local\\Programs\\WebStorm\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
@@ -96,11 +103,11 @@
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\User\WebstormProjects\serverorbitel" />
       <recent name="C:\Users\User\WebstormProjects\serverorbitel\src" />
       <recent name="C:\Users\User\WebstormProjects\serverorbitel\cert" />
       <recent name="C:\Users\User\WebstormProjects\serverorbitel\src\routes" />
       <recent name="C:\Users\User\WebstormProjects\serverorbitel\src\queries" />
-      <recent name="C:\Users\User\WebstormProjects\serverorbitel\src\controller" />
     </key>
   </component>
   <component name="RunManager" selected="npm.dev">
@@ -271,7 +278,16 @@
       <workItem from="1718266865025" duration="2306000" />
       <workItem from="1718802521484" duration="10021000" />
       <workItem from="1718891723147" duration="6650000" />
-      <workItem from="1718912655935" duration="355000" />
+      <workItem from="1718912655935" duration="374000" />
+      <workItem from="1718913954839" duration="924000" />
+      <workItem from="1718948981912" duration="12083000" />
+      <workItem from="1718983155081" duration="3777000" />
+      <workItem from="1719000570774" duration="3394000" />
+      <workItem from="1719143263220" duration="130000" />
+      <workItem from="1719165621946" duration="672000" />
+      <workItem from="1719209003484" duration="1525000" />
+      <workItem from="1719332708103" duration="384000" />
+      <workItem from="1719333945910" duration="2337000" />
     </task>
     <servers />
   </component>

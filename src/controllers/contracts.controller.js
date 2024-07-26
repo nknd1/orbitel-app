@@ -29,7 +29,16 @@ const addContract = (req, res) => {
             return res.status(500).send("Ошибка хеширования пароля");
         }
 
-        pool.query(queries.addContract, [connect_address, contract_number, personal_account, contract_client_id, hashedPassword, ip_address, subnet_mask, dns1, dns2, gateway], (error, results) => {
+        pool.query(queries.addContract, 
+            [connect_address, 
+            contract_number, 
+            personal_account, 
+            contract_client_id, 
+            hashedPassword, ip_address, 
+            subnet_mask, 
+            dns1, 
+            dns2, 
+            gateway],(error, results) => {
             if (error) {
                 console.error(error);
                 return res.status(500).send("Ошибка при добавлении договора");
